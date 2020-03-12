@@ -2,6 +2,7 @@ var express = require('express');
 var mustache = require('mustache-express');
 
 var app = express();
+var model = require('./model');
 
 app.use(express.urlencoded());
 
@@ -10,6 +11,7 @@ app.set('view engine', 'html');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
+    console.log(model.readAll());
     res.render('index');
 });
 
