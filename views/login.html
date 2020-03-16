@@ -3,10 +3,10 @@
 <div class="container">
     <form method="post" action="/login">
         {{#isFail}}
-        <small class="text-danger">Identifiant ou mot de passe incorrect</small>
+        <small class="text-danger">Email ou mot de passe incorrect</small>
         {{/isFail}}
         <div class="form-group">
-            <label for="mail">Identifiant</label>
+            <label for="mail">Email</label>
             <input name="mail" type="email" class="form-control" id="mail">
         </div>
         <div class="form-group">

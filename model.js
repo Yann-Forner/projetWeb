@@ -11,8 +11,11 @@ let db = new Sqlite('db.sqlite');
     Fonctions
  */
 
-exports.getUsers = function () {
+exports.getUsers = () => {
     return db.prepare('SELECT * FROM user').all();
+};
+exports.getUser = (id) =>{
+  return db.prepare('SELECT * FROM user WHERE id = @id').get({id : id});
 };
 
 exports.login = (mail, password) => {
@@ -29,4 +32,3 @@ exports.new_user = (password, name, surname, city, mail, phone) => {
         .run({id: null, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
     return query.lastInsertRowid;
 };
-

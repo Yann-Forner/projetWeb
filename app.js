@@ -93,6 +93,11 @@ app.post('/new_user', (req, res) => {
     res.redirect('/');
 });
 
+app.get('/profile',is_authenticated,(req,res)=>{
+    let myUser  = model.getUser(req.session.user);
+    console.log(myUser);
+    res.render('profile',myUser);
+});
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
 
