@@ -21,6 +21,7 @@
             <th scope="col">Ville</th>
             <th scope="col">Email</th>
             <th scope="col">Téléphone</th>
+            <th scope="col">Role</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
@@ -34,6 +35,7 @@
             <th scope="col">{{city}}</th>
             <th scope="col">{{mail}}</th>
             <th scope="col">{{phone}}</th>
+            <th scope="col">{{role}}</th>
             <th scope="col"><a class="btn btn-danger" href="/delete/{{id}}">Supprimer</a></th>
         </tr>
         {{/users}}
@@ -46,6 +48,12 @@
             <th scope="col"><input name="city" type="text" class="form-control" id="city"></th>
             <th scope="col"><input name="mail" type="email" class="form-control" id="email"></th>
             <th scope="col"><input name="phone" type="text" class="form-control" id="phone"></th>
+            <th scope="col">
+                <select name="role" class="form-control" id="exampleFormControlSelect1">
+                    <option>user</option>
+                    <option>admin</option>
+                </select>
+            </th>
             <th scope="col"><button type="submit" class="btn btn-success">Envoyer</button></th>
         </tr>
         </form>

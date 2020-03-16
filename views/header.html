@@ -23,6 +23,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
             </li>
+            {{#administrator}}
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Administration <span class="sr-only">(current)</span></a>
+            </li>
+            {{/administrator}}
         </ul>
         {{#authentificated}}
         <a class="btn btn-danger" href="/logout">Déconnexion</a>

@@ -39,6 +39,17 @@ function is_authenticated (req, res, next) {
     }
 }
 
+function is_admin (req, res, next) {
+    if (req.session.role === 'admin') {
+        res.locals.aministrator = true;
+        next();
+    }
+    else {
+        res.locals.aministrator = false;
+        res.status(401).send('You are not an administrator');
+    }
+}
+
 
 app.use('/img', express.static(__dirname + '/img'));
 
@@ -59,7 +70,7 @@ app.get('/', isLogin, (req, res) => {
     else res.render('index');
 });
 
-app.get('/home', is_authenticated,(req,res)=>{
+app.get('/home', is_authenticated, is_admin,(req,res)=>{
    res.render("home");
 });
 
@@ -68,9 +79,12 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    let userId = model.login(req.body.mail, req.body.password);
+    let user = model.login(req.body.mail, req.body.password);
+    let userId = user.id;
+    let userRole = user.role;
     if (userId !== -1) {
         req.session.user = userId;
+        req.session.role = userRole;
         res.redirect('/');
         return;
     }
@@ -80,38 +94,39 @@ app.post('/login', (req, res) => {
 app.get('/logout', (req, res) => {
     req.session = null;
     res.locals.authentificated = false;
+    res.locals.administrator = false;
     res.redirect('/');
 });
 
-app.get('/new_user', (req, res) => {
+app.get('/new_user', is_authenticated, is_admin, (req, res) => {
     res.render('new_user');
 });
 
 app.post('/new_user', (req, res) => {
     req.session.user = model.new_user(req.body.password, req.body.name, req.body.surname,
-                                        req.body.city, req.body.mail, req.body.phone);
+                                        req.body.city, req.body.mail, req.body.phone, 'user');
     res.redirect('/');
 });
 
-app.get('/profile',is_authenticated,(req,res)=>{
+app.get('/profile', is_authenticated, is_admin, (req,res)=>{
     let myUser  = model.getUser(req.session.user);
     console.log(myUser);
     res.render('profile',myUser);
 });
 
-app.get('/admin',is_authenticated,(req,res)=>{
+app.get('/admin', is_authenticated, is_admin,(req,res)=>{
     let users  = model.getUsers();
     res.render('admin',{users: users});
 });
 
-app.post('/add_user', (req, res) => {
+app.post('/add_user', is_authenticated, is_admin, (req, res) => {
     let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
-        req.body.city, req.body.mail, req.body.phone);
+        req.body.city, req.body.mail, req.body.phone, req.body.role);
     let users  = model.getUsers();
     res.render('admin',{users: users, isAdd: isDone !== -1});
 });
 
-app.get('/delete/:id', (req, res) => {
+app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
     let isDone = model.delete(req.params.id);
     let users  = model.getUsers();
     res.render('admin',{users: users, isDelete: isDone});
