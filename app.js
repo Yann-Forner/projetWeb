@@ -58,7 +58,7 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    let userId = model.login(req.body.name, req.body.password);
+    let userId = model.login(req.body.user_login, req.body.password);
     if (userId !== -1) {
         req.session.user = userId;
         res.redirect('/');
@@ -78,7 +78,8 @@ app.get('/new_user', (req, res) => {
 });
 
 app.post('/new_user', (req, res) => {
-    req.session.user = model.new_user(req.body.name, req.body.password);
+    req.session.user = model.new_user(req.body.user_login, req.body.password, req.body.name, req.body.surname,
+                                        req.body.city, req.body.mail, req.body.phone);
     res.redirect('/');
 });
 
