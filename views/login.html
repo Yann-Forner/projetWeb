@@ -2,9 +2,12 @@
 
 <div class="container">
     <form method="post" action="/login">
+        {{#isFail}}
+        <small class="text-danger">Identifiant ou mot de passe incorrect</small>
+        {{/isFail}}
         <div class="form-group">
-            <label for="user_login">Nom d'utilisateur</label>
-            <input name="user_login" type="text" class="form-control" id="user_login">
+            <label for="mail">Identifiant</label>
+            <input name="mail" type="email" class="form-control" id="mail">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Mot de passe</label>
