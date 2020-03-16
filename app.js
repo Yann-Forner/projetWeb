@@ -32,6 +32,8 @@ function is_authenticated (req, res, next) {
         next();
     }
 }
+
+
 app.use('/img', express.static(__dirname + '/img'));
 
 /*

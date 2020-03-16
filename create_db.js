@@ -17,7 +17,7 @@ var create_db =function () {
     db.prepare('DROP TABLE IF EXISTS object').run();
     db.prepare('DROP TABLE IF EXISTS exchange').run();
 
-    db.prepare('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, surname TEXT, city TEXT, mail TEXT, phone TEXT)').run();
+    db.prepare('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, user_login TEXT, password TEXT, name TEXT, surname TEXT, city TEXT, mail TEXT, phone TEXT)').run();
     db.prepare('CREATE TABLE object (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT)').run();
     db.prepare('CREATE TABLE exchange (idUser INTEGER REFERENCES user(id), idObject INTEGER REFERENCES object(id), type TEXT, PRIMARY KEY (idUser, idObject, type))').run();
 };
