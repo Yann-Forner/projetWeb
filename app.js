@@ -119,15 +119,15 @@ app.get('/admin',is_authenticated,is_admin,(req,res)=>{
     res.render('admin',{users: users});
 });
 
-app.post('/add_user', is_authenticated, is_admin, (req, res) => {
+app.post('/add_user', (req, res) => {
     let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
         req.body.city, req.body.mail, req.body.phone, req.body.role);
     let users  = model.get_users();
     res.render('admin',{users: users, isAdd: isDone !== -1});
 });
 
-app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
-    let isDone = model.delete(req.params.id);
+app.get('/delete/:id', (req, res) => {
+    let isDone = model.delete_user(req.params.id);
     let users  = model.get_users();
     res.render('admin',{users: users, isDelete: isDone});
 });
