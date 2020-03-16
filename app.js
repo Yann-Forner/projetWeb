@@ -41,11 +41,11 @@ function is_authenticated (req, res, next) {
 
 function is_admin (req, res, next) {
     if (req.session.role === 'admin') {
-        res.locals.aministrator = true;
+        res.locals.administrator = true;
         next();
     }
     else {
-        res.locals.aministrator = false;
+        res.locals.administrator = false;
         res.status(401).send('You are not an administrator');
     }
 }
