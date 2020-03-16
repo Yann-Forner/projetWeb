@@ -1,4 +1,43 @@
 {{> header}}
 
-{{name}}
+<div class="container bg-light">
+    <div class="text-center">
+        <img src="/img/people.png" style="width: 20%">
+    </div>
+    <hr>
+    <div class="row text-center ">
+        <div class="col">
+            {{mail}}
+        </div>
+        <div class="col">
+            {{name}}&nbsp{{surname}}
+        </div>
+        <div class="col">
+            {{city}}
+        </div>
+        <div class="col">
+            {{phone}}
+        </div>
+        <div class="col">
+            <a class="btn btn-block btn-outline-dark">Modifier</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-md-6" style="background-color: #B0F2B6">
+            <div class="d-flex justify-content-between">
+                <h3 >Besoins</h3>
+                <a class="btn"><img src="/img/plus.png" width="100%"></a>
+            </div>
+
+        </div>
+        <div class="col-12 col-md-6" style="background-color: #FF6961">
+            <div class="d-flex justify-content-between">
+                <h3>Surplus</h3>
+                <a class="btn"><img src="/img/plus.png" width="100%"></a>
+            </div>
+
+        </div>
+    </div>
+</div>
 {{> footer}}
