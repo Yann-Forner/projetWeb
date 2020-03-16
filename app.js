@@ -74,8 +74,9 @@ app.get('/home', is_authenticated, is_admin,(req,res)=>{
    res.render("home");
 });
 
-app.get('/login', (req, res) => {
-   res.render('login');
+app.get('/login', isLogin, (req, res) => {
+    if(res.locals.authentificated)res.redirect("/home");
+    else res.render('login');
 });
 
 app.post('/login', (req, res) => {
