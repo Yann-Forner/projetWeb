@@ -3,23 +3,24 @@
     <form method="post" action="/new_user">
         <div class="form-group">
             <label for="email">Email (sera votre identifiant)</label>
-            <input name="mail" type="email" class="form-control" id="email">
+            <input name="mail" type="email" class="form-control" id="email" required>
+            <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email.</small>
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Mot de passe</label>
-            <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
         </div>
         <div class="form-group">
             <label for="name">Prénom</label>
-            <input name="name" type="text" class="form-control" id="name">
+            <input name="name" type="text" class="form-control" id="name" required>
         </div>
         <div class="form-group">
             <label for="surname">Nom</label>
-            <input name="surname" type="text" class="form-control" id="surname">
+            <input name="surname" type="text" class="form-control" id="surname" required>
         </div>
         <div class="form-group">
             <label for="city">Ville</label>
-            <input name="city" type="text" class="form-control" id="city">
+            <input name="city" type="text" class="form-control" id="city" required>
         </div>
         <div class="form-group">
             <label for="phone">Numéro de téléphone</label>
