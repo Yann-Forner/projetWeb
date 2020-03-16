@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 /*
     Modules
  */
@@ -18,7 +18,7 @@ var app = express();
  */
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use('/img', express.static(__dirname + '/img'));
 
 /*
     Template
