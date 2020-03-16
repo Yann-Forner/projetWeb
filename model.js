@@ -11,8 +11,8 @@ let db = new Sqlite('db.sqlite');
     Fonctions
  */
 
-exports.readAll = function () {
-    return db.prepare('SELECT * FROM probleme').all();
+exports.getUsers = function () {
+    return db.prepare('SELECT * FROM user').all();
 };
 
 exports.login = (user_login, password) => {
