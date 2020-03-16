@@ -29,3 +29,4 @@ exports.new_user = (user_login, password, name, surname, city, mail, phone) => {
         .run({id: null, user_login: user_login, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
     return query.lastInsertRowid;
 };
+

@@ -74,7 +74,7 @@ app.post('/login', (req, res) => {
         res.redirect('/');
         return;
     }
-    res.redirect('/login');
+    res.render('login',{isFail : true});
 });
 
 app.get('/logout', (req, res) => {
