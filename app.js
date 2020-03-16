@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieSession({secret: 'mot-de-passe-du-cookie',}));
 
-function isLogin(req,res,next) {
+function isLogin(req, res, next) {
     if(req.session.user !== undefined){
         res.locals.authentificated = true;
     }
@@ -54,11 +54,12 @@ app.set('views', './views');
     Routes
  */
 
-app.get('/',isLogin, (req, res) => {
+app.get('/', isLogin, (req, res) => {
     if(res.locals.authentificated)res.redirect("/home");
     else res.render('index');
 });
-app.get('/home',is_authenticated,(req,res)=>{
+
+app.get('/home', is_authenticated,(req,res)=>{
    res.render("home");
 });
 
