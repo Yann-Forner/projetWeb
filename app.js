@@ -118,7 +118,6 @@ app.post('/new_user', (req, res) => {
 
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let myUser  = model.get_user(req.session.user);
-    console.log(myUser);
     res.render('profile',myUser);
 });
 
