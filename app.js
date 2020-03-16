@@ -20,7 +20,12 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieSession({secret: 'mot-de-passe-du-cookie',}));
-
+function isLogin(req,res,next) {
+    if(req.session.user !== undefined){
+        res.locals.authentificated = true;
+    }
+    next();
+}
 
 function is_authenticated (req, res, next) {
     if (req.session.user === undefined){
@@ -48,9 +53,12 @@ app.set('views', './views');
     Routes
  */
 
-app.get('/', (req, res) => {
-    console.log(model.readAll());
-    res.render('index');
+app.get('/',isLogin(), (req, res) => {
+    if(res.locals.authentificated)res.redirect("/home");
+    else res.render('index');
+});
+app.get('/home',is_authenticated(),(req,res)=>{
+   res.render("home");
 });
 
 app.get('/login', (req, res) => {
