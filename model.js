@@ -24,7 +24,7 @@ exports.login = (mail, password) => {
     return -1;
 };
 
-exports.new_user = (user_login, password, name, surname, city, mail, phone) => {
+exports.new_user = (password, name, surname, city, mail, phone) => {
     let query = db.prepare('INSERT INTO user VALUES (@id, @password, @name, @surname, @city, @mail, @phone)')
         .run({id: null, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
     return query.lastInsertRowid;
