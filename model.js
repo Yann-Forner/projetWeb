@@ -16,7 +16,7 @@ exports.readAll = function () {
 };
 
 exports.login = (user_login, password) => {
-    let query = db.prepare('SELECT * FROM user WHERE name = @user_login AND password = @password');
+    let query = db.prepare('SELECT * FROM user WHERE user_login = @user_login AND password = @password');
     let result = query.get({user_login: user_login, password: password});
     if (result) {
         return result.id;
