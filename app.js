@@ -70,7 +70,7 @@ app.get('/', isLogin, (req, res) => {
     else res.render('index');
 });
 
-app.get('/home', is_authenticated, is_admin,(req,res)=>{
+app.get('/home', is_authenticated,(req,res)=>{
    res.render("home");
 });
 
@@ -109,7 +109,7 @@ app.post('/new_user', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/profile', is_authenticated, is_admin, (req,res)=>{
+app.get('/profile', is_authenticated, (req,res)=>{
     let myUser  = model.get_user(req.session.user);
     console.log(myUser);
     res.render('profile',myUser);
@@ -120,14 +120,14 @@ app.get('/admin',is_authenticated,is_admin,(req,res)=>{
     res.render('admin',{users: users});
 });
 
-app.post('/add_user', (req, res) => {
+app.post('/add_user',is_authenticated,is_admin, (req, res) => {
     let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
         req.body.city, req.body.mail, req.body.phone, req.body.role);
     let users  = model.get_users();
     res.render('admin',{users: users, isAdd: isDone !== -1});
 });
 
-app.get('/delete/:id', (req, res) => {
+app.get('/delete/:id',is_authenticated,is_admin, (req, res) => {
     let isDone = model.delete_user(req.params.id);
     let users  = model.get_users();
     res.render('admin',{users: users, isDelete: isDone});
