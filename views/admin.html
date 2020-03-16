@@ -1,0 +1,58 @@
+{{> header}}
+
+<div class="container">
+    <h1 class="text-center">Liste des utilisateurs</h1>
+    <p class="text-white text-center bg-danger">
+    {{#isDelete}}
+    <small>Utilisateur supprimé</small>
+    {{/isDelete}}
+    {{#isAdd}}
+    <small>Utilisateur ajouté</small>
+    {{/isAdd}}
+    </p>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mot de passe</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Ville</th>
+            <th scope="col">Email</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#users}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <th scope="col">{{password}}</th>
+            <th scope="col">{{surname}}</th>
+            <th scope="col">{{name}}</th>
+            <th scope="col">{{city}}</th>
+            <th scope="col">{{mail}}</th>
+            <th scope="col">{{phone}}</th>
+            <th scope="col"><a class="btn btn-danger" href="/delete/{{id}}">Supprimer</a></th>
+        </tr>
+        {{/users}}
+        <form method="post" action="/add_user">
+        <tr>
+            <th scope="row">new</th>
+            <th scope="col"><input name="password" type="password" class="form-control" id="exampleInputPassword1"></th>
+            <th scope="col"><input name="surname" type="text" class="form-control" id="surname"></th>
+            <th scope="col"><input name="name" type="text" class="form-control" id="name"></th>
+            <th scope="col"><input name="city" type="text" class="form-control" id="city"></th>
+            <th scope="col"><input name="mail" type="email" class="form-control" id="email"></th>
+            <th scope="col"><input name="phone" type="text" class="form-control" id="phone"></th>
+            <th scope="col"><button type="submit" class="btn btn-success">Envoyer</button></th>
+        </tr>
+        </form>
+        </tbody>
+    </table>
+
+
+</div>
+
+{{> footer}}

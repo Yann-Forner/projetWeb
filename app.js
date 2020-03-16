@@ -99,5 +99,23 @@ app.get('/profile',is_authenticated,(req,res)=>{
     res.render('profile',myUser);
 });
 
+app.get('/admin',is_authenticated,(req,res)=>{
+    let users  = model.getUsers();
+    res.render('admin',{users: users});
+});
+
+app.post('/add_user', (req, res) => {
+    let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
+        req.body.city, req.body.mail, req.body.phone);
+    let users  = model.getUsers();
+    res.render('admin',{users: users, isAdd: isDone !== -1});
+});
+
+app.get('/delete/:id', (req, res) => {
+    let isDone = model.delete(req.params.id);
+    let users  = model.getUsers();
+    res.render('admin',{users: users, isDelete: isDone});
+});
+
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
 

@@ -32,3 +32,11 @@ exports.new_user = (password, name, surname, city, mail, phone) => {
         .run({id: null, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
     return query.lastInsertRowid;
 };
+
+exports.delete = (id) => {
+    let query = db.prepare('DELETE FROM user WHERE id = @id').run({id: id});
+    if (query.changes = 1) {
+        return true;
+    }
+    return false;
+};
