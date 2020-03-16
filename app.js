@@ -112,7 +112,7 @@ app.post('/add_user', (req, res) => {
 });
 
 app.get('/delete/:id', (req, res) => {
-    let isDone = model.delete(req.params.id);
+    let isDone = model.delete_user(req.params.id);
     let users  = model.get_users();
     res.render('admin',{users: users, isDelete: isDone});
 });
