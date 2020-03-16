@@ -19,7 +19,7 @@ var create_db =function () {
 
     db.prepare('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, surname TEXT, city TEXT, mail TEXT, phone TEXT)').run();
     db.prepare('CREATE TABLE object (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT)').run();
-    db.prepare('CREATE TABLE exchange (idUser INTEGER REFERENCES user.id, idObject INTEGER REFERENCES object.id, type TEXT)').run();
+    db.prepare('CREATE TABLE exchange (idUser INTEGER REFERENCES user(id), idObject INTEGER REFERENCES object(id), type TEXT)').run();
 };
 
 create_db();
