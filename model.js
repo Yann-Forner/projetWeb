@@ -11,10 +11,10 @@ let db = new Sqlite('db.sqlite');
     Fonctions
  */
 
-exports.getUsers = () => {
+exports.get_users = () => {
     return db.prepare('SELECT * FROM user').all();
 };
-exports.getUser = (id) =>{
+exports.get_user = (id) =>{
   return db.prepare('SELECT * FROM user WHERE id = @id').get({id : id});
 };
 
@@ -31,6 +31,15 @@ exports.new_user = (password, name, surname, city, mail, phone, role) => {
     let query = db.prepare('INSERT INTO user VALUES (@id, @password, @name, @surname, @city, @mail, @phone, @role)')
         .run({id: null, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone, role: role});
     return query.lastInsertRowid;
+};
+
+exports.new_object = (name) => {
+  let query = db.prepare('INSERT INTO object VALUES(@id , @name)').run({id : null, name : name});
+  return query.lastInsertRowid;
+};
+
+exports.get_user_object = (id) =>{
+    return db.prepare('SELECT * FROM object WHERE idUser = @idUser').get({idUser : id});
 };
 
 exports.delete = (id) => {

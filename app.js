@@ -98,7 +98,7 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/new_user', is_authenticated, is_admin, (req, res) => {
+app.get('/new_user', (req, res) => {
     res.render('new_user');
 });
 
@@ -109,26 +109,26 @@ app.post('/new_user', (req, res) => {
 });
 
 app.get('/profile', is_authenticated, is_admin, (req,res)=>{
-    let myUser  = model.getUser(req.session.user);
+    let myUser  = model.get_user(req.session.user);
     console.log(myUser);
     res.render('profile',myUser);
 });
 
-app.get('/admin', is_authenticated, is_admin,(req,res)=>{
-    let users  = model.getUsers();
+app.get('/admin',is_authenticated,is_admin,(req,res)=>{
+    let users  = model.get_users();
     res.render('admin',{users: users});
 });
 
 app.post('/add_user', is_authenticated, is_admin, (req, res) => {
     let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
         req.body.city, req.body.mail, req.body.phone, req.body.role);
-    let users  = model.getUsers();
+    let users  = model.get_users();
     res.render('admin',{users: users, isAdd: isDone !== -1});
 });
 
 app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
     let isDone = model.delete(req.params.id);
-    let users  = model.getUsers();
+    let users  = model.get_users();
     res.render('admin',{users: users, isDelete: isDone});
 });
 
