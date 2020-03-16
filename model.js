@@ -42,7 +42,7 @@ exports.get_user_object = (id) =>{
     return db.prepare('SELECT * FROM object WHERE idUser = @idUser').get({idUser : id});
 };
 
-exports.delete = (id) => {
+exports.delete_user = (id) => {
     let query = db.prepare('DELETE FROM user WHERE id = @id').run({id: id});
     if (query.changes = 1) {
         return true;
