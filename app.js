@@ -69,7 +69,6 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     let userId = model.login(req.body.user_login, req.body.password);
-    console.log(userId);
     if (userId !== -1) {
         req.session.user = userId;
         res.redirect('/');
