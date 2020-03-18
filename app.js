@@ -123,7 +123,17 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
 
 app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     let myUser = model.get_user(req.session.user);
-    res.render('edit-profile', myUser);
+    res.render('edit-profile', {myUser: myUser});
+});
+
+app.post('/edit-profile', (req, res) => {
+    let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
+    if (model.edit_profile(req.session.user, req.body.password, req.body.name, req.body.surname, req.body.city, req.body.mail, req.body.phone) > 0) {
+        res.redirect('/profile');
+    }
+    else {
+        res.render('edit-profile', {myUser: userChanges, isNotDone: true});
+    }
 });
 
 app.get('/admin', is_authenticated, is_admin,(req,res)=>{

@@ -44,8 +44,14 @@ exports.get_user_object = (id) =>{
 
 exports.delete_user = (id) => {
     let query = db.prepare('DELETE FROM user WHERE id = @id').run({id: id});
-    if (query.changes = 1) {
+    if (query.changes === 1) {
         return true;
     }
     return false;
+};
+
+exports.edit_profile = (userID, password, name, surname, city, mail, phone) => {
+    let query = db.prepare('UPDATE user SET name = @name, surname = @surname, city = @city, phone = @phone, mail = @mail WHERE id = @id AND password = @password')
+        .run({id: userID, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
+    return query.changes;
 };

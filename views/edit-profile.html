@@ -1,6 +1,13 @@
 {{> header}}
 
 <div class="container">
+    <p class="text-white text-center bg-danger">
+        {{#isNotDone}}
+        <small>Modification échouée</small>
+        {{/isNotDone}}
+    </p>
+
+    {{#myUser}}
     <form method="post" action="/edit-profile">
         <div class="form-row">
             <div class="form-group col-6">
@@ -30,6 +37,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Valider les changements</button>
     </form>
+    {{/myUser}}
 </div>
 
 {{> footer}}
