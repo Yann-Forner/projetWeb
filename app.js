@@ -117,8 +117,13 @@ app.post('/new_user', (req, res) => {
 });
 
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
-    let myUser  = model.get_user(req.session.user);
-    res.render('profile',myUser);
+    let myUser = model.get_user(req.session.user);
+    res.render('profile', myUser);
+});
+
+app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
+    let myUser = model.get_user(req.session.user);
+    res.render('edit-profile', myUser);
 });
 
 app.get('/admin', is_authenticated, is_admin,(req,res)=>{

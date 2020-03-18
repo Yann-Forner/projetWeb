@@ -1,0 +1,35 @@
+{{> header}}
+
+<div class="container">
+    <form method="post" action="/edit-profile">
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label for="name">Prénom</label>
+                <input name="name" type="text" class="form-control" id="name" value="{{name}}" required>
+            </div>
+            <div class="form-group col-6">
+                <label for="surname">Nom</label>
+                <input name="surname" type="text" class="form-control" id="surname" value="{{surname}}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input name="mail" type="email" class="form-control" id="email" value="{{mail}}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Numéro de téléphone</label>
+            <input name="phone" type="text" class="form-control" id="phone" value="{{phone}}">
+        </div>
+        <div class="form-group">
+            <label for="city">Ville</label>
+            <input name="city" type="text" class="form-control" id="city" value="{{city}}" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Mot de passe</label>
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Valider les changements</button>
+    </form>
+</div>
+
+{{> footer}}
