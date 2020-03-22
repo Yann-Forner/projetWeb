@@ -33,7 +33,7 @@
         <div class="col-12 col-md-6" style="background-color: #B0F2B6">
             <div class="d-flex justify-content-between">
                 <h3 >Besoins</h3>
-                <a class="btn btn-outline-dark"  style="border : 0;"><img src="/img/plus.png" width="100%"></a>
+                <a class="btn btn-outline-dark" id="addNeed" data-toggle="modal" data-target="#add-exchange" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
             </div>
             <ul>
                 {{#needs}}
@@ -45,7 +45,7 @@
         <div class="col-12 col-md-6" style="background-color: #FF6961">
             <div class="d-flex justify-content-between">
                 <h3>Surplus</h3>
-                <a class="btn btn-outline-dark" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
+                <a class="btn btn-outline-dark" id="addSurplus" data-toggle="modal" data-target="#add-exchange" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
             </div>
             <ul>
                 {{#surplus}}
@@ -53,6 +53,46 @@
                 {{/surplus}}
             </ul>
 
+        </div>
+    </div>
+
+    <!-- Modal Needs -->
+    <div class="modal fade" id="add-exchange" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleModalAddExchange">Ajouter un besoin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Nom de l'objet</label>
+                        <input type="text" class="form-control awesomplete" name="name" list="myNames" autocomplete="off" id="name" placeholder="Carotte .. ">
+                        <datalist id="myNames">
+                            {{#names}}
+                            <option>{{name}}</option>
+                            {{/names}}
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="cat">Catégorie</label>
+                        <input type="text" class="form-control awesomplete" name="category" list="myCats" id="cat" placeholder="Alimentaire ..  ">
+                        <datalist id="myCats">
+                            {{#categories}}
+                            <option>{{category}}</option>
+                            {{/categories}}
+                        </datalist>
+                    </div>
+                    <input type="hidden" name="type" id="myType">
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Ajouter" class="btn btn-primary">
+                </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

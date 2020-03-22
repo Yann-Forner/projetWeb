@@ -77,3 +77,7 @@ exports.getCategories = () => {
     let query = db.prepare('SELECT category FROM object GROUP BY category').all();
     return query;
 };
+exports.get_names = () => {
+    let query = db.prepare('SELECT name FROM object').all();
+    return query;
+};

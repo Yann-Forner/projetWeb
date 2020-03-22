@@ -59,6 +59,7 @@ function is_admin (req, res, next) {
 
 
 app.use('/img', express.static(__dirname + '/img'));
+app.use('/js',express.static(__dirname + '/js'));
 
 /*
     Template
@@ -128,7 +129,9 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
      // model.add_object_to_user(req.session.user,model.new_object('chou','alimentaire'),'surplus');
     let surplus =model.get_user_surplus(req.session.user);
     let needs =model.get_user_needs(req.session.user);
-    res.render('profile',{myUser : myUser , surplus : surplus , needs : needs } );
+    let names = model.get_names();
+    let categories = model.getCategories();
+    res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
 app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
