@@ -51,7 +51,7 @@ exports.get_user_needs = (id) =>{
 };
 exports.get_user_surplus = (id) =>{
     return db.prepare('SELECT object.* FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE exchange.idUser = @idUser AND exchange.type = @type').all({idUser : id , type : 'surplus'});
-}
+};
 exports.delete_exchange_needs = (idUser, idObject) =>{
     db.prepare('DELETE FROM exchange WHERE idUser = @idUser AND idObject = @idObject AND type = @type').run({idUser : idUser , idObject : idObject , type : 'besoin'});
 };
@@ -73,7 +73,15 @@ exports.edit_profile = (userID, password, name, surname, city, mail, phone) => {
     return query.changes;
 };
 
-exports.getCategories = () => {
+exports.get_categories = () => {
     let query = db.prepare('SELECT category FROM object GROUP BY category').all();
     return query;
 };
+
+exports.get_correspondance = (category, name) => {
+    let query = db.prepare('SELECT exchange.idUser FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
+        .all({category: category, name: name, type: "surplus"});
+    console.log(query);
+    return query;
+};
+
