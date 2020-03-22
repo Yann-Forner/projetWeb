@@ -194,8 +194,13 @@ app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
 });
 
 app.post('/search', isLogin, isLogAdmin, (req, res) => {
-    let peoples = model.get_correspondance(req.body.category, req.body.object);
-    res.render("find", {peoples : peoples})
+    let peoples = [];
+    let users = model.get_correspondance(req.body.category, req.body.object);
+    for (let user of users) {
+        let people = {object: req.body.object, user: user};
+        peoples.push(people);
+    }
+    res.render("find", {peoples : peoples});
 });
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
