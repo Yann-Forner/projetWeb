@@ -78,11 +78,12 @@ app.get('/', isLogin, (req, res) => {
     else res.render('index');
 });
 
-app.get('/home', is_authenticated, isLogAdmin, (req,res)=>{
+app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
+    let needs = model.get_user_needs(req.session.user);
     let peoples = [];
     let users = model.get_users();
-    for (let user of users) {
-        let people = {user: user, object: "carotte"};
+    for (let need of needs) {
+        let people = model.get_correspondance(need.category, need.name);
         peoples.push(people);
     }
     let categories = model.get_categories();
@@ -134,6 +135,13 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
+app.post('/add-new-exchange' , (req,res) => {
+    let id  = model.get_id_object(req.body.name,req.body.category);
+    if(id === -1) id = model.new_object(req.body.name,req.body.category,) ;
+    model.add_object_to_user(req.session.user,id,req.body.type);
+    res.redirect('/profile');
+ });
+
 app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     let myUser = model.get_user(req.session.user);
     res.render('edit-profile', {myUser: myUser});
@@ -179,7 +187,7 @@ app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
     res.render('user', {user: user});
 });
 
-app.post('/search', (req, res) => {
+app.post('/search', isLogin, isLogAdmin, (req, res) => {
     let peoples = model.get_correspondance(req.body.category, req.body.object);
     res.render("find", {peoples : peoples})
 });

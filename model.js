@@ -66,7 +66,11 @@ exports.delete_user = (id) => {
     }
     return false;
 };
-
+exports.get_id_object = (name,category) => {
+  let query = db.prepare('SELECT id FROM object WHERE name = @name AND category = @category').get({name : name , category : category});
+  if(query == undefined)return -1;
+  return query.id;
+};
 exports.edit_profile = (userID, password, name, surname, city, mail, phone) => {
     let query = db.prepare('UPDATE user SET name = @name, surname = @surname, city = @city, phone = @phone, mail = @mail WHERE id = @id AND password = @password')
         .run({id: userID, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
