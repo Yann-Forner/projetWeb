@@ -85,7 +85,7 @@ app.get('/home', is_authenticated, isLogAdmin, (req,res)=>{
         let people = {user: user, object: "carotte"};
         peoples.push(people);
     }
-    let categories = model.getCategories();
+    let categories = model.get_categories();
    res.render("home", {peoples: peoples, categories: categories});
 });
 
@@ -130,7 +130,7 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let surplus =model.get_user_surplus(req.session.user);
     let needs =model.get_user_needs(req.session.user);
     let names = model.get_names();
-    let categories = model.getCategories();
+    let categories = model.get_categories();
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
@@ -184,6 +184,11 @@ app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
 app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
     let user = model.get_user(req.params.id);
     res.render('user', {user: user});
+});
+
+app.post('/search', (req, res) => {
+    let peoples = model.get_correspondance(req.body.category, req.body.object);
+    res.render("find", {peoples : peoples})
 });
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
