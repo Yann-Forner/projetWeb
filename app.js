@@ -134,6 +134,13 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
+app.post('/add-new-exchange' , (req,res) => {
+    let id  = model.get_id_object(req.body.name,req.body.category);
+    if(id === -1) id = model.new_object(req.body.name,req.body.category,) ;
+    model.add_object_to_user(req.session.user,id,req.body.type);
+    res.redirect('/profile');
+ });
+
 app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     let myUser = model.get_user(req.session.user);
     res.render('edit-profile', {myUser: myUser});
