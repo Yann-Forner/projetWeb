@@ -20,9 +20,11 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            {{#authentificated}}
             <li class="nav-item">
                 <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
             </li>
+            {{/authentificated}}
             {{#administrator}}
             <li class="nav-item">
                 <a class="nav-link" href="/admin">Administration <span class="sr-only">(current)</span></a>
