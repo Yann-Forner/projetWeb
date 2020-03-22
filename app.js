@@ -91,7 +91,8 @@ app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
         }
     }
     let categories = model.get_categories();
-   res.render("home", {peoples: peoples, categories: categories});
+    let objects = model.get_names();
+   res.render("home", {peoples: peoples, categories: categories, objects: objects});
 });
 
 app.get('/login', isLogin, (req, res) => {
@@ -133,8 +134,8 @@ app.post('/new_user', (req, res) => {
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let myUser = model.get_user(req.session.user);
      // model.add_object_to_user(req.session.user,model.new_object('chou','alimentaire'),'surplus');
-    let surplus =model.get_user_surplus(req.session.user);
-    let needs =model.get_user_needs(req.session.user);
+    let surplus = model.get_user_surplus(req.session.user);
+    let needs = model.get_user_needs(req.session.user);
     let names = model.get_names();
     let categories = model.get_categories();
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );

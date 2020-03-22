@@ -32,7 +32,11 @@
         <div class="form-group row">
             <label for="object" class="col-sm-2 col-form-label">Objet</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="object" name="object">
+                <select class="form-control" id="object" name="object">
+                    {{#objects}}
+                    <option>{{name}}</option>
+                    {{/objects}}
+                </select>
             </div>
         </div>
         <div class="form-group row">
