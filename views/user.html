@@ -23,20 +23,26 @@
             <small>Tel&nbsp:</small><br>
             {{phone}}
         </div>
-        <div class="col">
-            <a href="/edit-profile" class="btn btn-block btn-outline-dark">Modifier</a>
-        </div>
     </div>
     <hr>
     <div class="row">
-        <div class="col-12" style="background-color: #FF6961">
+        <div class="col-12 col-md" style="background-color:  #B0F2B6">
+            <div class="d-flex justify-content-between">
+                <h3>Besoins</h3>
+            </div>
+            <ul>
+                {{#needs}}
+                <li class=""><p>{{category}}&nbsp:&nbsp{{name}}</p></li>
+                {{/needs}}
+            </ul>
+        </div>
+        <div class="col-12 col-md" style="background-color: #FF6961">
             <div class="d-flex justify-content-between">
                 <h3>Surplus</h3>
-                <a class="btn btn-outline-dark" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
             </div>
             <ul>
                 {{#surplus}}
-                <li class="d-flex justify-content-around"><p>{{category}}&nbsp:&nbsp{{name}}</p></li>
+                <li class=""><p>{{category}}&nbsp:&nbsp{{name}}</p></li>
                 {{/surplus}}
             </ul>
         </div>

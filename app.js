@@ -80,6 +80,7 @@ app.get('/', isLogin, (req, res) => {
 });
 
 app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
+    let isPeople = false;
     let needs = model.get_user_needs(req.session.user);
     let peoples = [];
     for (let need of needs) {
@@ -91,9 +92,9 @@ app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
             }
         }
     }
+    if(peoples.length !== 0) isPeople = true;
     let categories = model.get_categories();
-    let objects = model.get_names();
-   res.render("home", {peoples: peoples, categories: categories, objects: objects});
+   res.render("home", {peoples: peoples, categories: categories , isPeople : isPeople});
 });
 
 app.get('/login', isLogin, (req, res) => {
@@ -135,8 +136,8 @@ app.post('/new_user', (req, res) => {
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let myUser = model.get_user(req.session.user);
      // model.add_object_to_user(req.session.user,model.new_object('chou','alimentaire'),'surplus');
-    let surplus = model.get_user_surplus(req.session.user);
-    let needs = model.get_user_needs(req.session.user);
+    let surplus =model.get_user_surplus(req.session.user);
+    let needs =model.get_user_needs(req.session.user);
     let names = model.get_names();
     let categories = model.get_categories();
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
@@ -192,17 +193,28 @@ app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
 app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
     let user = model.get_user(req.params.id);
     let surplus = model.get_user_surplus(req.params.id);
-    res.render('user', {user: user, surplus: surplus});
+    let besoins = model.get_user_needs(req.params.id);
+    res.render('user', {user: user, surplus: surplus , needs : besoins});
 });
 
 app.post('/search', isLogin, isLogAdmin, (req, res) => {
     let peoples = [];
-    let users = model.get_correspondance(req.body.category, req.body.object);
-    for (let user of users) {
-        let people = {object: req.body.object, user: user};
-        peoples.push(people);
+    let users;
+    if(req.body.category === "" && req.body.object === "" ) res.redirect("/home");
+    else{
+        if(req.body.category === "" )users = model.get_correspondance_only_name(req.body.object);
+        else if( req.body.object === "" ) users = model.get_correspondance_only_cat(req.body.category);
+        else {
+            users = model.get_correspondance(req.body.category, req.body.object);
+        }
+        for (let user of users) {
+            let people = {object: user.objectName , user: user};
+            peoples.push(people);
+        }
+        console.log(peoples)
+        res.render("find", {peoples : peoples});
     }
-    res.render("find", {peoples : peoples});
+
 });
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));

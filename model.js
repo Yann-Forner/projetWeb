@@ -83,8 +83,18 @@ exports.get_categories = () => {
 };
 
 exports.get_correspondance = (category, name) => {
-    let query = db.prepare('SELECT user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
+    let query = db.prepare('SELECT object.name AS objectName,user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
         .all({category: category, name: name, type: "surplus"});
+    return query;
+};
+exports.get_correspondance_only_name = (name) => {
+    let query = db.prepare('SELECT object.name AS objectName,user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE   object.name = @name AND exchange.type = @type')
+        .all({ name: name, type: "surplus"});
+    return query;
+};
+exports.get_correspondance_only_cat = (category) => {
+    let query = db.prepare('SELECT object.name AS objectName,user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category  AND exchange.type = @type')
+        .all({category: category, type: "surplus"});
     return query;
 };
 
