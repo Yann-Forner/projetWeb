@@ -5,6 +5,7 @@
         <img src="/img/people.png" style="width: 20%">
     </div>
     <hr>
+    {{#myUser}}
     <div class="row text-center ">
         <div class="col">
             <small>Mail&nbsp:</small><br>
@@ -22,6 +23,7 @@
             <small>Tel&nbsp:</small><br>
             {{phone}}
         </div>
+        {{/myUser}}
         <div class="col">
             <a href="/edit-profile" class="btn btn-block btn-outline-dark">Modifier</a>
         </div>
@@ -33,6 +35,11 @@
                 <h3 >Besoins</h3>
                 <a class="btn btn-outline-dark"  style="border : 0;"><img src="/img/plus.png" width="100%"></a>
             </div>
+            <ul>
+                {{#needs}}
+                <li class="d-flex justify-content-around"><p>{{category}}&nbsp:&nbsp{{name}}</p><a href="/delete-exchange-needs/{{id}}"><img src="/img/close.png" ></a></li>
+                {{/needs}}
+            </ul>
 
         </div>
         <div class="col-12 col-md-6" style="background-color: #FF6961">
@@ -40,6 +47,11 @@
                 <h3>Surplus</h3>
                 <a class="btn btn-outline-dark" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
             </div>
+            <ul>
+                {{#surplus}}
+                <li class="d-flex justify-content-around"><p>{{category}}&nbsp:&nbsp{{name}}</p><a href="/delete-exchange-surplus/{{id}}"><img src="/img/close.png" ></a></li>
+                {{/surplus}}
+            </ul>
 
         </div>
     </div>
