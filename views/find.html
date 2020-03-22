@@ -1,0 +1,20 @@
+{{> header}}
+
+<div class="container">
+    <h1>Les personnes trouvées</h1>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
+        {{#peoples}}
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{object}}</h5>
+                    <p class="card-text">{{user.name}}</p>
+                    <a href="/user/{{user.id}}" class="btn btn-primary">Voir le profil</a>
+                </div>
+            </div>
+        </div>
+        {{/peoples}}
+    </div>
+</div>
+
+{{> footer}}
