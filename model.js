@@ -33,13 +33,30 @@ exports.new_user = (password, name, surname, city, mail, phone, role) => {
     return query.lastInsertRowid;
 };
 
-exports.new_object = (name) => {
-  let query = db.prepare('INSERT INTO object VALUES(@id , @name)').run({id : null, name : name});
+exports.new_object = (name,category) => {
+  let query = db.prepare('INSERT INTO object VALUES(@id , @name ,@category)').run({id : null, name : name, category:category});
   return query.lastInsertRowid;
 };
 
+exports.add_object_to_user = (idUser, idObject , type) =>{
+    db.prepare('INSERT INTO exchange VALUES (@idUser, @idObject, @type)').run({idUser : idUser , idObject : idObject , type : type});
+};
+
+
 exports.get_user_object = (id) =>{
-    return db.prepare('SELECT * FROM object WHERE idUser = @idUser').get({idUser : id});
+    return db.prepare('SELECT * FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE exchange.idUser = @idUser').all({idUser : id});
+};
+exports.get_user_needs = (id) =>{
+    return db.prepare('SELECT object.* FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE exchange.idUser = @idUser AND exchange.type = @type').all({idUser : id , type : 'besoin'});
+};
+exports.get_user_surplus = (id) =>{
+    return db.prepare('SELECT object.* FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE exchange.idUser = @idUser AND exchange.type = @type').all({idUser : id , type : 'surplus'});
+}
+exports.delete_exchange_needs = (idUser, idObject) =>{
+    db.prepare('DELETE FROM exchange WHERE idUser = @idUser AND idObject = @idObject AND type = @type').run({idUser : idUser , idObject : idObject , type : 'besoin'});
+};
+exports.delete_exchange_surplus = (idUser, idObject) =>{
+    db.prepare('DELETE FROM exchange WHERE idUser = @idUser AND idObject = @idObject AND type = @type').run({idUser : idUser , idObject : idObject , type : 'surplus'});
 };
 
 exports.delete_user = (id) => {

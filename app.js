@@ -118,7 +118,10 @@ app.post('/new_user', (req, res) => {
 
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let myUser = model.get_user(req.session.user);
-    res.render('profile', myUser);
+     // model.add_object_to_user(req.session.user,model.new_object('chou','alimentaire'),'surplus');
+    let surplus =model.get_user_surplus(req.session.user)
+    let needs =model.get_user_needs(req.session.user)
+    res.render('profile',{myUser : myUser , surplus : surplus , needs : needs } );
 });
 
 app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
@@ -135,7 +138,14 @@ app.post('/edit-profile', (req, res) => {
         res.render('edit-profile', {myUser: userChanges, isNotDone: true});
     }
 });
-
+app.get('/delete-exchange-needs/:id', is_authenticated , (req,res)=>{
+    model.delete_exchange_needs(req.session.user,req.params.id);
+   res.redirect('/profile');
+});
+app.get('/delete-exchange-surplus/:id', is_authenticated , (req,res)=>{
+    model.delete_exchange_surplus(req.session.user,req.params.id);
+    res.redirect('/profile');
+});
 app.get('/admin', is_authenticated, is_admin,(req,res)=>{
     let users  = model.get_users();
     res.render('admin',{users: users});
