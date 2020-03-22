@@ -1,8 +1,12 @@
 {{> header}}
 
 <div class="container text-center">
-
+    {{#isPeople}}
     <h1>Ce(s) profil(s) correspond(ent) à vos besoins</h1>
+    {{/isPeople}}
+    {{^isPeople}}
+    <h3>Aucun profil ne correspond à vos besoins</h3>
+    {{/isPeople}}
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5">
         {{#peoples}}
         <div class="col mb-4">
