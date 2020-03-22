@@ -37,7 +37,14 @@
             </div>
             <ul>
                 {{#needs}}
-                <li class="d-flex justify-content-around"><p>{{category}}&nbsp:&nbsp{{name}}</p><a href="/delete-exchange-needs/{{id}}"><img src="/img/close.png" ></a></li>
+                <li class="d-flex justify-content-around">
+                    <p>{{category}}&nbsp:&nbsp{{name}}</p>
+                    <a href="/delete-exchange-needs/{{id}}">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </a>
+                </li>
                 {{/needs}}
             </ul>
 
@@ -49,7 +56,14 @@
             </div>
             <ul>
                 {{#surplus}}
-                <li class="d-flex justify-content-around"><p>{{category}}&nbsp:&nbsp{{name}}</p><a href="/delete-exchange-surplus/{{id}}"><img src="/img/close.png" ></a></li>
+                <li class="d-flex justify-content-around">
+                    <p>{{category}}&nbsp:&nbsp{{name}}</p>
+                    <a href="/delete-exchange-surplus/{{id}}">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </a>
+                </li>
                 {{/surplus}}
             </ul>
 
