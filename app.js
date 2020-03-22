@@ -130,7 +130,7 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let surplus =model.get_user_surplus(req.session.user);
     let needs =model.get_user_needs(req.session.user);
     let names = model.get_names();
-    let categories = model.getCategories();
+    let categories = model.get_categories();
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
