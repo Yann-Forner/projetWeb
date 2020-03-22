@@ -83,9 +83,8 @@ exports.get_categories = () => {
 };
 
 exports.get_correspondance = (category, name) => {
-    let query = db.prepare('SELECT exchange.idUser FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
+    let query = db.prepare('SELECT user.id, user.name FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
         .all({category: category, name: name, type: "surplus"});
-    console.log(query);
     return query;
 };
 
