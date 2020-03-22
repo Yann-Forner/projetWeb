@@ -78,7 +78,13 @@ app.get('/', isLogin, (req, res) => {
 });
 
 app.get('/home', is_authenticated, isLogAdmin, (req,res)=>{
-   res.render("home");
+    let peoples = [];
+    let users = model.get_users();
+    for (let user of users) {
+        let people = {user: user, object: "carotte"};
+        peoples.push(people);
+    }
+   res.render("home", {peoples: peoples});
 });
 
 app.get('/login', isLogin, (req, res) => {
@@ -162,6 +168,11 @@ app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
     let isDone = model.delete_user(req.params.id);
     let users  = model.get_users();
     res.render('admin',{users: users, isDelete: isDone});
+});
+
+app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
+    let user = model.get_user(req.params.id);
+    res.render('user', {user: user});
 });
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));

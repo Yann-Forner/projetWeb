@@ -1,7 +1,21 @@
 {{> header}}
 
-<div class="container">
-    Hey this is your Home
+<div class="container text-center">
+
+    <h1>Ces profils correspondent à vos besoins</h1>
+    <hr>
+    <div class="card-deck">
+        {{#peoples}}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{object}}</h5>
+                <p class="card-text">{{user.name}}</p>
+                <a href="/user/{{user.id}}" class="btn btn-primary">Voir le profil</a>
+            </div>
+        </div>
+        {{/peoples}}
+    </div>
+
 </div>
 
 {{> footer}}

@@ -1,0 +1,41 @@
+{{> header}}
+
+<div class="container bg-light">
+    {{#user}}
+    <div class="text-center">
+        <img src="/img/people.png" style="width: 20%">
+    </div>
+    <hr>
+    <div class="row text-center ">
+        <div class="col">
+            <small>Mail&nbsp:</small><br>
+            {{mail}}
+        </div>
+        <div class="col">
+            <small>Nom complet&nbsp:</small><br>
+            {{name}}&nbsp{{surname}}
+        </div>
+        <div class="col">
+            <small>Ville&nbsp:</small><br>
+            {{city}}
+        </div>
+        <div class="col">
+            <small>Tel&nbsp:</small><br>
+            {{phone}}
+        </div>
+        <div class="col">
+            <a href="/edit-profile" class="btn btn-block btn-outline-dark">Modifier</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12" style="background-color: #FF6961">
+            <div class="d-flex justify-content-between">
+                <h3>Surplus</h3>
+                <a class="btn btn-outline-dark" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
+            </div>
+        </div>
+    </div>
+    {{/user}}
+</div>
+{{> footer}}
