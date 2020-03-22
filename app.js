@@ -60,6 +60,7 @@ function is_admin (req, res, next) {
 
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/js',express.static(__dirname + '/js'));
+app.use('/css',express.static(__dirname + '/css'));
 
 /*
     Template
