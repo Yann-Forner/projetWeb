@@ -81,10 +81,14 @@ app.get('/', isLogin, (req, res) => {
 app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
     let needs = model.get_user_needs(req.session.user);
     let peoples = [];
-    let users = model.get_users();
     for (let need of needs) {
-        let people = model.get_correspondance(need.category, need.name);
-        peoples.push(people);
+        let users = model.get_correspondance(need.category, need.name);
+        if (users.length !== 0) {
+            for (let user of users) {
+                let people = {user: user, object: need.name};
+                peoples.push(people);
+            }
+        }
     }
     let categories = model.get_categories();
    res.render("home", {peoples: peoples, categories: categories});
@@ -97,15 +101,16 @@ app.get('/login', isLogin, (req, res) => {
 
 app.post('/login', (req, res) => {
     let user = model.login(req.body.mail, req.body.password);
-    let userId = user.id;
-    let userRole = user.role;
-    if (userId !== -1) {
+    if (user !== -1) {
+        let userId = user.id;
+        let userRole = user.role;
         req.session.user = userId;
         req.session.role = userRole;
         res.redirect('/');
-        return;
     }
-    res.render('login',{isFail : true});
+    else {
+        res.render('login', {isFail: true});
+    }
 });
 
 app.get('/logout', (req, res) => {
@@ -184,12 +189,18 @@ app.get('/delete/:id', is_authenticated, is_admin, (req, res) => {
 
 app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
     let user = model.get_user(req.params.id);
-    res.render('user', {user: user});
+    let surplus = model.get_user_surplus(req.params.id);
+    res.render('user', {user: user, surplus: surplus});
 });
 
 app.post('/search', isLogin, isLogAdmin, (req, res) => {
-    let peoples = model.get_correspondance(req.body.category, req.body.object);
-    res.render("find", {peoples : peoples})
+    let peoples = [];
+    let users = model.get_correspondance(req.body.category, req.body.object);
+    for (let user of users) {
+        let people = {object: req.body.object, user: user};
+        peoples.push(people);
+    }
+    res.render("find", {peoples : peoples});
 });
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));

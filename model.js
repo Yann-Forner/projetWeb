@@ -21,7 +21,7 @@ exports.get_user = (id) =>{
 exports.login = (mail, password) => {
     let query = db.prepare('SELECT * FROM user WHERE mail = @mail AND password = @password');
     let result = query.get({mail: mail, password: password});
-    if (result) {
+    if (result !== undefined) {
         return result;
     }
     return -1;
@@ -83,9 +83,8 @@ exports.get_categories = () => {
 };
 
 exports.get_correspondance = (category, name) => {
-    let query = db.prepare('SELECT exchange.idUser FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
+    let query = db.prepare('SELECT user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
         .all({category: category, name: name, type: "surplus"});
-    console.log(query);
     return query;
 };
 

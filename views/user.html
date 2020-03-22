@@ -34,6 +34,11 @@
                 <h3>Surplus</h3>
                 <a class="btn btn-outline-dark" style="border : 0;"><img src="/img/plus.png" width="100%"></a>
             </div>
+            <ul>
+                {{#surplus}}
+                <li class="d-flex justify-content-around"><p>{{category}}&nbsp:&nbsp{{name}}</p></li>
+                {{/surplus}}
+            </ul>
         </div>
     </div>
     {{/user}}
