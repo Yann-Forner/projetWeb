@@ -101,15 +101,16 @@ app.get('/login', isLogin, (req, res) => {
 
 app.post('/login', (req, res) => {
     let user = model.login(req.body.mail, req.body.password);
-    let userId = user.id;
-    let userRole = user.role;
-    if (userId !== -1) {
+    if (user !== -1) {
+        let userId = user.id;
+        let userRole = user.role;
         req.session.user = userId;
         req.session.role = userRole;
         res.redirect('/');
-        return;
     }
-    res.render('login',{isFail : true});
+    else {
+        res.render('login', {isFail: true});
+    }
 });
 
 app.get('/logout', (req, res) => {

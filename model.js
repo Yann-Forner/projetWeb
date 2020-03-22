@@ -21,7 +21,7 @@ exports.get_user = (id) =>{
 exports.login = (mail, password) => {
     let query = db.prepare('SELECT * FROM user WHERE mail = @mail AND password = @password');
     let result = query.get({mail: mail, password: password});
-    if (result) {
+    if (result !== undefined) {
         return result;
     }
     return -1;
