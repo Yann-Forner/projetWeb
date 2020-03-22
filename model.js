@@ -85,3 +85,8 @@ exports.get_correspondance = (category, name) => {
     return query;
 };
 
+
+exports.get_names = () => {
+    let query = db.prepare('SELECT name FROM object').all();
+    return query;
+};
