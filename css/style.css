@@ -4,7 +4,6 @@
 
 #myWelcomeDiv {
     height: 95vh !important;
-    background-image: url('https://source.unsplash.com/1800x1080/?object');
     object-fit: cover;
     width: 100%;
 }
