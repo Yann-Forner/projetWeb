@@ -29,32 +29,32 @@
         <tbody>
         {{#users}}
         <tr>
-            <th scope="row">{{id}}</th>
-            <th scope="col">{{password}}</th>
-            <th scope="col">{{surname}}</th>
-            <th scope="col">{{name}}</th>
-            <th scope="col">{{city}}</th>
-            <th scope="col">{{mail}}</th>
-            <th scope="col">{{phone}}</th>
-            <th scope="col">{{role}}</th>
-            <th scope="col"><a class="btn btn-danger" href="/delete/{{id}}">Supprimer</a></th>
+            <td scope="row">{{id}}</td>
+            <td scope="col">{{password}}</td>
+            <td scope="col">{{surname}}</td>
+            <td scope="col">{{name}}</td>
+            <td scope="col">{{city}}</td>
+            <td scope="col">{{mail}}</td>
+            <td scope="col">{{phone}}</td>
+            <td scope="col">{{role}}</td>
+            <td scope="col"><a class="btn btn-danger" href="/delete/{{id}}">Supprimer</a></td>
         </tr>
         {{/users}}
         <form method="post" action="/add_user">
         <tr>
-            <th scope="row">new</th>
-            <th scope="col"><input name="password" type="password" class="form-control" id="exampleInputPassword1"></th>
-            <th scope="col"><input name="surname" type="text" class="form-control" id="surname"></th>
-            <th scope="col"><input name="name" type="text" class="form-control" id="name"></th>
-            <th scope="col"><input name="city" type="text" class="form-control" id="city"></th>
-            <th scope="col"><input name="mail" type="email" class="form-control" id="email"></th>
-            <th scope="col"><input name="phone" type="text" class="form-control" id="phone"></th>
-            <th scope="col">
+            <td scope="row">new</td>
+            <td scope="col"><input name="password" type="password" class="form-control" id="exampleInputPassword1"></td>
+            <td scope="col"><input name="surname" type="text" class="form-control" id="surname"></td>
+            <td scope="col"><input name="name" type="text" class="form-control" id="name"></td>
+            <td scope="col"><input name="city" type="text" class="form-control" id="city"></td>
+            <td scope="col"><input name="mail" type="email" class="form-control" id="email"></td>
+            <td scope="col"><input name="phone" type="text" class="form-control" id="phone"></td>
+            <td scope="col">
                 <select name="role" class="form-control" id="exampleFormControlSelect1">
                     <option>user</option>
                     <option>admin</option>
                 </select>
-            </th>
+            </td>
             <th scope="col"><button type="submit" class="btn btn-success">Envoyer</button></th>
         </tr>
         </form>
