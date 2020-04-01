@@ -31,9 +31,15 @@
             <label for="city">Ville</label>
             <input name="city" type="text" class="form-control" id="city" value="{{city}}" required>
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Mot de passe</label>
-            <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
+        <div class="form-row">
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="exampleInputPassword1">Mot de passe</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
+            </div>
+            <div class="form-group col-md-6 col-sm-12 text-center">
+                <label for="editpwd"></label>
+                <a href="/edit-password" class="btn btn-danger" id="editpwd">Modifier le mot de passe</a>
+            </div>
         </div>
         <div class="row text-center">
             <div class="col">
