@@ -63,11 +63,13 @@ exports.delete_user = (id) => {
     return query.changes === 1;
 
 };
+
 exports.get_id_object = (name,category) => {
   let query = db.prepare('SELECT id FROM object WHERE name = @name AND category = @category').get({name : name , category : category});
   if(query === undefined)return -1;
   return query.id;
 };
+
 exports.edit_profile = (userID, password, name, surname, city, mail, phone) => {
     let query = db.prepare('UPDATE user SET name = @name, surname = @surname, city = @city, phone = @phone, mail = @mail WHERE id = @id AND password = @password')
         .run({id: userID, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
@@ -90,19 +92,25 @@ exports.get_correspondance = (category, name) => {
         .all({category: category, name: name, type: "surplus"});
     return query;
 };
+
 exports.get_correspondance_only_name = (name) => {
     let query = db.prepare('SELECT object.name AS objectName,user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE   object.name = @name AND exchange.type = @type')
         .all({ name: name, type: "surplus"});
     return query;
 };
+
 exports.get_correspondance_only_cat = (category) => {
     let query = db.prepare('SELECT object.name AS objectName,user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category  AND exchange.type = @type')
         .all({category: category, type: "surplus"});
     return query;
 };
 
-
 exports.get_names = () => {
     let query = db.prepare('SELECT name FROM object').all();
+    return query;
+};
+
+exports.is_mail_exists = (mail) => {
+    let query = db.prepare('SELECT mail FROM user WHERE mail = @mail').get({mail: mail});
     return query;
 };

@@ -1,9 +1,11 @@
 {{> header}}
+
+//TODO: mettre des pattern et trouver des regex
 <div class="container">
     <form method="post" action="/new_user">
         <div class="form-group">
             <label for="email">Email (sera votre identifiant)</label>
-            <input name="mail" type="email" class="form-control" id="email" required>
+            <input name="mail" type="email" class="form-control" id="email" pattern="^[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]{2,}\.[a-zA-Z]{2-4}$" required>
             <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email.</small>
         </div>
         <div class="form-group">
@@ -24,7 +26,7 @@
         </div>
         <div class="form-group">
             <label for="phone">Numéro de téléphone</label>
-            <input name="phone" type="text" class="form-control" id="phone">
+            <input name="phone" pattern="^(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}$" type="text" class="form-control" id="phone">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

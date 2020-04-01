@@ -9,6 +9,7 @@ var model = require('./model');
 // parse form arguments in POST requests
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+const { check, validationResult } = require('express-validator');
 
 var app = express();
 
@@ -57,6 +58,43 @@ function is_admin (req, res, next) {
     }
 }
 
+//TODO: trouver des regex et faire fonctionner ce truc
+const check_inscription = [
+    // mail must be an email
+    check('mail').custom(value => {
+        if (!value.match(/[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]{2,}\.[a-zA-Z]{2-4}/)) {
+            return Promise.reject("Email isn't at good format");
+        }
+    }),
+    // mail must note exist in database
+    check('mail').custom(value => {
+        if (model.is_mail_exists(value) !== undefined) {
+            return Promise.reject('E-mail already in use');
+        }
+    }),
+    // password must be at least 5 chars long
+    check('password', "Password isn't enough long").isLength({ min: 5 }),
+    // name and surname must be alphabetic and between 2 and 20 characters
+    check('name', 'Name is not at good format').isAlpha().isLength({min: 2, max: 20}),
+    check('surname', 'Surname is not at good format').isAlpha().isLength({min: 2, max: 20}),
+    // city must be alphabetic and between 1 and 100 characters
+    check('city').isAlpha().isLength({min: 1, max: 100}),
+    // phone must be at phone format
+    check('phone').custom(value => {
+        if (!value.match(/(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}/)) {
+            return Promise.reject("Phone isn't at good format");
+        }
+    })
+    ];
+
+//a appeler pour appliquer la validation
+const validator = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    else next();
+};
 
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/js',express.static(__dirname + '/js'));
@@ -127,9 +165,9 @@ app.get('/new_user', isLogAdmin, (req, res) => {
     res.render('new_user');
 });
 
-app.post('/new_user', (req, res) => {
+app.post('/new_user', check_inscription, validator, (req, res) => {
     req.session.user = model.new_user(req.body.password, req.body.name, req.body.surname,
-                                        req.body.city, req.body.mail, req.body.phone, 'user');
+        req.body.city, req.body.mail, req.body.phone, 'user');
     res.redirect('/');
 });
 
