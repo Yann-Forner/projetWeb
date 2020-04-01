@@ -164,6 +164,15 @@ app.post('/edit-profile', (req, res) => {
         res.render('edit-profile', {myUser: userChanges, isNotDone: true});
     }
 });
+
+app.post('/edit-password', (req, res) => {
+    if (model.edit_password(req.session.user, req.body.current_password, req.body.new_password) > 0) {
+        res.redirect('/profile');
+    }
+    else {
+        res.render('edit-profile', {isNotDone: true});
+    }
+});
 app.get('/delete-exchange-needs/:id', is_authenticated , (req,res)=>{
     model.delete_exchange_needs(req.session.user,req.params.id);
    res.redirect('/profile');
@@ -211,7 +220,7 @@ app.post('/search', isLogin, isLogAdmin, (req, res) => {
             let people = {object: user.objectName , user: user};
             peoples.push(people);
         }
-        console.log(peoples)
+        console.log(peoples);
         res.render("find", {peoples : peoples});
     }
 

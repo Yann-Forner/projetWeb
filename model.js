@@ -42,7 +42,6 @@ exports.add_object_to_user = (idUser, idObject , type) =>{
     db.prepare('INSERT INTO exchange VALUES (@idUser, @idObject, @type)').run({idUser : idUser , idObject : idObject , type : type});
 };
 
-
 exports.get_user_object = (id) =>{
     return db.prepare('SELECT * FROM object LEFT JOIN exchange ON exchange.idObject = object.id WHERE exchange.idUser = @idUser').all({idUser : id});
 };
@@ -61,19 +60,23 @@ exports.delete_exchange_surplus = (idUser, idObject) =>{
 
 exports.delete_user = (id) => {
     let query = db.prepare('DELETE FROM user WHERE id = @id').run({id: id});
-    if (query.changes === 1) {
-        return true;
-    }
-    return false;
+    return query.changes === 1;
+
 };
 exports.get_id_object = (name,category) => {
   let query = db.prepare('SELECT id FROM object WHERE name = @name AND category = @category').get({name : name , category : category});
-  if(query == undefined)return -1;
+  if(query === undefined)return -1;
   return query.id;
 };
 exports.edit_profile = (userID, password, name, surname, city, mail, phone) => {
     let query = db.prepare('UPDATE user SET name = @name, surname = @surname, city = @city, phone = @phone, mail = @mail WHERE id = @id AND password = @password')
         .run({id: userID, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
+    return query.changes;
+};
+
+exports.edit_password = (userId, current_password, new_password) => {
+    let query = db.prepare('UPDATE user set password = @new_password WHERE id = @id AND password = @current_password')
+        .run({id: userId, current_password: current_password, new_password: new_password});
     return query.changes;
 };
 
