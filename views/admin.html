@@ -43,12 +43,12 @@
         <form method="post" action="/add_user">
         <tr>
             <th scope="row">new</th>
-            <td><input name="password" type="password" class="form-control" id="exampleInputPassword1"></td>
-            <td><input name="surname" type="text" class="form-control" id="surname"></td>
-            <td><input name="name" type="text" class="form-control" id="name"></td>
-            <td><input name="city" type="text" class="form-control" id="city"></td>
-            <td><input name="mail" type="email" class="form-control" id="email"></td>
-            <td><input name="phone" type="text" class="form-control" id="phone"></td>
+            <td><input name="password" type="password" class="form-control" id="password" pattern="^.{5,}$" required></td>
+            <td><input name="surname" type="text" class="form-control" id="surname" required></td>
+            <td><input name="name" type="text" class="form-control" id="name" required></td>
+            <td><input name="city" type="text" class="form-control" id="city" required></td>
+            <td><input name="mail" type="email" class="form-control" id="email" pattern="^[\w\-\.]+@[\w\-]{2,}\.[a-zA-Z]{2,}$" required></td>
+            <td><input name="phone" type="text" class="form-control" id="phone" pattern="^(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}$" required></td>
             <td>
                 <select name="role" class="form-control" id="exampleFormControlSelect1">
                     <option>user</option>

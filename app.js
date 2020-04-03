@@ -85,10 +85,10 @@ const check_inscription = [
     })
     ];
 
-const check_password = [
-    check('new_password1').custom((value, {req}) => {
+const check_new_password = [
+    check('new_password1').isLength({min: 5}).custom((value, {req}) => {
         if (value !== req.body.new_password2) {
-            return Promise.reject("Password are'nt the same");
+            return Promise.reject("Password aren't the same");
         }
         return Promise.resolve;
     })
@@ -180,8 +180,8 @@ app.post('/new_user', check_inscription, validator, (req, res) => {
 
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let myUser = model.get_user(req.session.user);
-    let surplus =model.get_user_surplus(req.session.user);
-    let needs =model.get_user_needs(req.session.user);
+    let surplus = model.get_user_surplus(req.session.user);
+    let needs = model.get_user_needs(req.session.user);
     let names = model.get_names();
     let categories = model.get_categories();
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
@@ -209,12 +209,14 @@ app.post('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     }
 });
 
-app.post('/edit-password', is_authenticated, isLogAdmin, check_password, validator, (req, res) => {
+app.post('/edit-password', is_authenticated, isLogAdmin, check_new_password, validator, (req, res) => {
     if (model.edit_password(req.session.user, req.body.current_password, req.body.new_password1) > 0) {
         res.redirect('/profile');
     }
     else {
-        res.render('edit-profile', {isNotDone: true});
+        let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
+
+        res.render('edit-profile', {myUser: userChanges, isNotDone: true});
     }
 });
 
@@ -233,7 +235,7 @@ app.get('/admin', is_authenticated, is_admin,(req,res)=>{
     res.render('admin',{users: users});
 });
 
-app.post('/add_user', is_authenticated, is_admin, (req, res) => {
+app.post('/add_user', is_authenticated, is_admin, check_inscription, validator, (req, res) => {
     let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
         req.body.city, req.body.mail, req.body.phone, req.body.role);
     let users  = model.get_users();
