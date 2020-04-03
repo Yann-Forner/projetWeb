@@ -1,11 +1,14 @@
 {{> header}}
 
 <div class="container">
-    <p class="text-white text-center bg-danger">
+    <div class="text-white text-center bg-danger">
         {{#isNotDone}}
-        <small>Modification échouée</small>
+        <p><small>Modification échouée</small></p>
         {{/isNotDone}}
-    </p>
+        {{#errors}}
+        <p><small>{{msg}}</small></p>
+        {{/errors}}
+    </div>
 
     {{#myUser}}
     <form method="post" action="/edit-profile">

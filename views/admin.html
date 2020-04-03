@@ -2,14 +2,17 @@
 
 <div class="container">
     <h1 class="text-center">Liste des utilisateurs</h1>
-    <p class="text-white text-center bg-danger">
-    {{#isDelete}}
-    <small>Utilisateur supprimé</small>
-    {{/isDelete}}
-    {{#isAdd}}
-    <small>Utilisateur ajouté</small>
-    {{/isAdd}}
-    </p>
+    <div class="text-white text-center bg-danger">
+        {{#isDelete}}
+        <p><small>Utilisateur supprimé</small></p>
+        {{/isDelete}}
+        {{#isAdd}}
+        <p><small>Utilisateur ajouté</small></p>
+        {{/isAdd}}
+        {{#errors}}
+        <p><small>{{msg}}</small></p>
+        {{/errors}}
+    </div>
     <br>
     <div class="table-responsive">
         <table class="table table-striped ">

@@ -1,7 +1,11 @@
 {{> header}}
 
-<!-- TODO: mettre des pattern et trouver des regex -->
 <div class="container">
+    <div class="text-white text-center bg-danger">
+        {{#errors}}
+        <p><small>{{msg}}</small></p>
+        {{/errors}}
+    </div>
     <form method="post" action="/new_user">
         <div class="form-group">
             <label for="email">Email (sera votre identifiant)</label>

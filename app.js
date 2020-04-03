@@ -39,7 +39,7 @@ function isLogAdmin(req, res, next) {
 function is_authenticated (req, res, next) {
     if (req.session.user === undefined){
         res.locals.authentificated = false;
-        res.status(401).send('Authentication required');
+        res.status(401).render('error-page', {error: 'Authentication required'});
     }
     else {
         res.locals.authentificated = true;
@@ -54,7 +54,7 @@ function is_admin (req, res, next) {
     }
     else {
         res.locals.administrator = false;
-        res.status(401).send('You are not an administrator');
+        res.status(401).render('error-page', {error: 'You are not an administrator'});
     }
 }
 
@@ -65,7 +65,7 @@ const check_inscription = [
             return Promise.reject("Email isn't at good format");
         }
         if (model.is_mail_exists(value) !== undefined) {
-            return Promise.reject('E-mail already use');
+            return Promise.reject('E-mail already used');
         }
         else return Promise.resolve;
     }),
@@ -83,7 +83,7 @@ const check_inscription = [
         }
         else return Promise.resolve;
     })
-    ];
+];
 
 const check_new_password = [
     check('new_password1').isLength({min: 5}).custom((value, {req}) => {
@@ -98,9 +98,10 @@ const check_new_password = [
 const validator = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        res.locals.validationFailed = true;
+        res.locals.errors = errors.array();
     }
-    else next();
+    next();
 };
 
 app.use('/img', express.static(__dirname + '/img'));
@@ -173,9 +174,14 @@ app.get('/new_user', isLogAdmin, (req, res) => {
 });
 
 app.post('/new_user', check_inscription, validator, (req, res) => {
-    req.session.user = model.new_user(req.body.password, req.body.name, req.body.surname,
-        req.body.city, req.body.mail, req.body.phone, 'user');
-    res.redirect('/');
+    if (res.locals.validationFailed === true) {
+        res.status(422).render('new_user', {errors: res.locals.errors})
+    }
+    else {
+        req.session.user = model.new_user(req.body.password, req.body.name, req.body.surname,
+            req.body.city, req.body.mail, req.body.phone, 'user');
+        res.redirect('/');
+    }
 });
 
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
@@ -210,12 +216,14 @@ app.post('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
 });
 
 app.post('/edit-password', is_authenticated, isLogAdmin, check_new_password, validator, (req, res) => {
+    let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
+    if (res.locals.validationFailed === true) {
+        res.status(422).render('edit-profile', {myUser: userChanges, isNotDone: true, errors: res.locals.errors})
+    }
     if (model.edit_password(req.session.user, req.body.current_password, req.body.new_password1) > 0) {
         res.redirect('/profile');
     }
     else {
-        let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
-
         res.render('edit-profile', {myUser: userChanges, isNotDone: true});
     }
 });
@@ -236,6 +244,9 @@ app.get('/admin', is_authenticated, is_admin,(req,res)=>{
 });
 
 app.post('/add_user', is_authenticated, is_admin, check_inscription, validator, (req, res) => {
+    if (res.locals.validationFailed === true) {
+        res.status(422).render('admin', {errors: res.locals.errors})
+    }
     let isDone = model.new_user(req.body.password, req.body.name, req.body.surname,
         req.body.city, req.body.mail, req.body.phone, req.body.role);
     let users  = model.get_users();
