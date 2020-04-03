@@ -85,6 +85,15 @@ const check_inscription = [
     })
     ];
 
+const check_password = [
+    check('new_password1').custom((value, {req}) => {
+        if (value !== req.body.new_password2) {
+            return Promise.reject("Password are'nt the same");
+        }
+        return Promise.resolve;
+    })
+];
+
 //a appeler pour appliquer la validation
 const validator = (req, res, next) => {
     const errors = validationResult(req);
@@ -171,7 +180,6 @@ app.post('/new_user', check_inscription, validator, (req, res) => {
 
 app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let myUser = model.get_user(req.session.user);
-     // model.add_object_to_user(req.session.user,model.new_object('chou','alimentaire'),'surplus');
     let surplus =model.get_user_surplus(req.session.user);
     let needs =model.get_user_needs(req.session.user);
     let names = model.get_names();
@@ -191,7 +199,7 @@ app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     res.render('edit-profile', {myUser: myUser});
 });
 
-app.post('/edit-profile', (req, res) => {
+app.post('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
     if (model.edit_profile(req.session.user, req.body.password, req.body.name, req.body.surname, req.body.city, req.body.mail, req.body.phone) > 0) {
         res.redirect('/profile');
@@ -201,22 +209,25 @@ app.post('/edit-profile', (req, res) => {
     }
 });
 
-app.post('/edit-password', (req, res) => {
-    if (model.edit_password(req.session.user, req.body.current_password, req.body.new_password) > 0) {
+app.post('/edit-password', is_authenticated, isLogAdmin, check_password, validator, (req, res) => {
+    if (model.edit_password(req.session.user, req.body.current_password, req.body.new_password1) > 0) {
         res.redirect('/profile');
     }
     else {
         res.render('edit-profile', {isNotDone: true});
     }
 });
+
 app.get('/delete-exchange-needs/:id', is_authenticated , (req,res)=>{
     model.delete_exchange_needs(req.session.user,req.params.id);
    res.redirect('/profile');
 });
+
 app.get('/delete-exchange-surplus/:id', is_authenticated , (req,res)=>{
     model.delete_exchange_surplus(req.session.user,req.params.id);
     res.redirect('/profile');
 });
+
 app.get('/admin', is_authenticated, is_admin,(req,res)=>{
     let users  = model.get_users();
     res.render('admin',{users: users});
