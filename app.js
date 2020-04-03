@@ -18,10 +18,6 @@ var app = express();
     Middleware
  */
 
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(cookieSession({secret: 'mot-de-passe-du-cookie',}));
-
 function isLogin(req, res, next) {
     if(req.session.user !== undefined){
         res.locals.authentificated = true;
@@ -104,6 +100,8 @@ const validator = (req, res, next) => {
     next();
 };
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieSession({secret: 'mot-de-passe-du-cookie',}));
 app.use('/img', express.static(__dirname + '/img'));
 app.use('/js',express.static(__dirname + '/js'));
 app.use('/css',express.static(__dirname + '/css'));
@@ -283,7 +281,11 @@ app.post('/search', isLogin, isLogAdmin, (req, res) => {
         console.log(peoples);
         res.render("find", {peoples : peoples});
     }
+});
 
+
+app.get('*', function(req, res){
+    res.status(404).render('error-page', {error: '404 NOT FOUND'});
 });
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
