@@ -60,17 +60,15 @@ function is_admin (req, res, next) {
 
 //TODO: trouver des regex et faire fonctionner ce truc
 const check_inscription = [
-    // mail must be an email
+    // mail must be an email and must not exists in database
     check('mail').custom(value => {
-        if (!value.match(/[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]{2,}\.[a-zA-Z]{2-4}/)) {
+        if (!value.match(/[\w\-.]+@[\w\-]{2,}\.[a-zA-Z]{2,}/)) {
             return Promise.reject("Email isn't at good format");
         }
-    }),
-    // mail must note exist in database
-    check('mail').custom(value => {
         if (model.is_mail_exists(value) !== undefined) {
-            return Promise.reject('E-mail already in use');
+            return Promise.reject('E-mail already use');
         }
+        else return Promise.resolve;
     }),
     // password must be at least 5 chars long
     check('password', "Password isn't enough long").isLength({ min: 5 }),
@@ -84,6 +82,7 @@ const check_inscription = [
         if (!value.match(/(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}/)) {
             return Promise.reject("Phone isn't at good format");
         }
+        else return Promise.resolve;
     })
     ];
 

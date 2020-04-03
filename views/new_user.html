@@ -1,11 +1,11 @@
 {{> header}}
 
-//TODO: mettre des pattern et trouver des regex
+<!-- TODO: mettre des pattern et trouver des regex -->
 <div class="container">
     <form method="post" action="/new_user">
         <div class="form-group">
             <label for="email">Email (sera votre identifiant)</label>
-            <input name="mail" type="email" class="form-control" id="email" pattern="^[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]{2,}\.[a-zA-Z]{2-4}$" required>
+            <input name="mail" type="email" class="form-control" id="email" pattern="^[\w\-\.]+@[\w\-]{2,}\.[a-zA-Z]{2,}$" required>
             <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email.</small>
         </div>
         <div class="form-group">
