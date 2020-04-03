@@ -58,7 +58,6 @@ function is_admin (req, res, next) {
     }
 }
 
-//TODO: trouver des regex et faire fonctionner ce truc
 const check_inscription = [
     // mail must be an email and must not exists in database
     check('mail').custom(value => {
