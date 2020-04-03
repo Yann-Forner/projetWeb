@@ -19,7 +19,7 @@ var create_db =function () {
 
     db.prepare('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, password TEXT NOT NULL, name TEXT NOT NULL, surname TEXT NOT NULL, city TEXT NOT NULL, mail TEXT NOT NULL, phone TEXT, role TEXT NOT NULL)').run();
     db.prepare('CREATE TABLE object (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, category TEXT NOT NULL)').run();
-    db.prepare('CREATE TABLE exchange (idUser INTEGER REFERENCES user(id), idObject INTEGER REFERENCES object(id), type TEXT NOT NULL, PRIMARY KEY (idUser, idObject))').run();
+    db.prepare('CREATE TABLE exchange (idUser INTEGER REFERENCES user(id), idObject INTEGER REFERENCES object(id) ON DELETE CASCADE, type TEXT NOT NULL, PRIMARY KEY (idUser, idObject))').run();
 
     db.prepare('INSERT INTO user VALUES (@id, @password, @name, @surname, @city, @mail, @phone, @role)')
         .run({id: null, password: 'root', name: 'admin', surname: 'admin', city: 'Marseille', mail: 'admin@admin.fr', phone: '0000000000', role: 'admin'})
