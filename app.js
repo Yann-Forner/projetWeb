@@ -9,6 +9,8 @@ var model = require('./model');
 // parse form arguments in POST requests
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+const fetch = require('node-fetch');
+
 const { check, validationResult } = require('express-validator');
 
 var app = express();
@@ -127,18 +129,47 @@ app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
     let isPeople = false;
     let needs = model.get_user_needs(req.session.user);
     let peoples = [];
+
+    let myTown = model.get_my_town(req.session.user);
+
+    let iterNumber = 0;
+    for (let need of needs){
+        let users = model.get_correspondance(need.category, need.name);
+        for (let user of users){
+            ++iterNumber;
+        }
+    }
+    let categories = model.get_categories();
+    if(iterNumber === 0){
+        res.render("home", {peoples: peoples, categories: categories , isPeople : isPeople});
+    }
     for (let need of needs) {
         let users = model.get_correspondance(need.category, need.name);
         if (users.length !== 0) {
-            for (let user of users) {
-                let people = {user: user, object: need.name};
-                peoples.push(people);
+            for(let user of users){
+
+                let url = "https://fr.distance24.org/route.json?stops="+myTown.city+"|"+user.city;
+
+                let settings = { method: "Get" };
+                fetch(url, settings)
+                    .then(res => res.json())
+                    .then((json) => {
+                        let people = {user: user, object: need.name ,distance: json.distance};
+                        peoples.push(people);
+                        if( iterNumber === peoples.length){
+                            if(peoples.length !== 0) isPeople = true;
+                            peoples.sort(function (a,b) {
+                                return a.distance - b.distance;
+                            });
+                            res.render("home", {peoples: peoples, categories: categories , isPeople : isPeople});
+                        }
+                    });
+
             }
+
         }
     }
-    if(peoples.length !== 0) isPeople = true;
-    let categories = model.get_categories();
-   res.render("home", {peoples: peoples, categories: categories , isPeople : isPeople});
+
 });
 
 app.get('/login', isLogin, (req, res) => {

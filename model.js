@@ -88,7 +88,7 @@ exports.get_categories = () => {
 };
 
 exports.get_correspondance = (category, name) => {
-    let query = db.prepare('SELECT object.name AS objectName,user.id, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
+    let query = db.prepare('SELECT object.name AS objectName,user.id, user.city, user.name, user.surname FROM object LEFT JOIN exchange ON exchange.idObject = object.id LEFT JOIN user ON exchange.idUser = user.id WHERE object.category = @category AND object.name = @name AND exchange.type = @type')
         .all({category: category, name: name, type: "surplus"});
     return query;
 };
@@ -114,3 +114,9 @@ exports.is_mail_exists = (mail) => {
     let query = db.prepare('SELECT mail FROM user WHERE mail = @mail').get({mail: mail});
     return query;
 };
+
+exports.get_my_town = (id) =>{
+
+    let query = db.prepare('SELECT city FROM user WHERE id = @id').get({id: id});
+    return query;
+}
