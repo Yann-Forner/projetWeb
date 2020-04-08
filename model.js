@@ -120,3 +120,4 @@ exports.get_my_town = (id) =>{
     let query = db.prepare('SELECT city FROM user WHERE id = @id').get({id: id});
     return query;
 }
+

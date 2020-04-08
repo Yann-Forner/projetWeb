@@ -5,6 +5,7 @@
 
 var express = require('express');
 var mustache = require('mustache-express');
+var passwordHash = require('password-hash');
 var model = require('./model');
 // parse form arguments in POST requests
 const bodyParser = require('body-parser');
@@ -127,6 +128,7 @@ app.get('/', isLogin, (req, res) => {
 });
 
 app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
+    console.log(model.get_users());
     let isPeople = false;
     let needs = model.get_user_needs(req.session.user);
     let peoples = [];
@@ -179,7 +181,7 @@ app.get('/login', isLogin, (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    let user = model.login(req.body.mail, req.body.password);
+    let user = model.login(req.body.mail, passwordHash.generate(req.body.password));
     if (user !== -1) {
         let userId = user.id;
         let userRole = user.role;
@@ -208,7 +210,7 @@ app.post('/new_user', check_inscription, validator, (req, res) => {
         res.status(422).render('new_user', {errors: res.locals.errors})
     }
     else {
-        req.session.user = model.new_user(req.body.password, req.body.name, req.body.surname,
+        req.session.user = model.new_user(passwordHash.generate(req.body.password), req.body.name, req.body.surname,
             req.body.city, req.body.mail, req.body.phone, 'user');
         res.redirect('/');
     }
