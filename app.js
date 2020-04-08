@@ -74,7 +74,7 @@ const check_inscription = [
     check('name', 'Name is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     check('surname', 'Surname is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     // city must be alphabetic and between 1 and 100 characters
-    check('city').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 1, max: 100}),
+    check('city', 'City is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 1, max: 100}),
     // phone must be at phone format
     check('phone').custom(value => {
         if (!value.match(/(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}/)) {
