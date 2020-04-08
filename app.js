@@ -70,10 +70,10 @@ const check_inscription = [
     // password must be at least 5 chars long
     check('password', "Password isn't enough long").isLength({ min: 5 }),
     // name and surname must be alphabetic and between 2 and 20 characters
-    check('name', 'Name is not at good format').isAlpha().isLength({min: 2, max: 20}),
-    check('surname', 'Surname is not at good format').isAlpha().isLength({min: 2, max: 20}),
+    check('name', 'Name is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
+    check('surname', 'Surname is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     // city must be alphabetic and between 1 and 100 characters
-    check('city').isAlpha().isLength({min: 1, max: 100}),
+    check('city').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 1, max: 100}),
     // phone must be at phone format
     check('phone').custom(value => {
         if (!value.match(/(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}/)) {
@@ -95,6 +95,7 @@ const check_new_password = [
 //a appeler pour appliquer la validation
 const validator = (req, res, next) => {
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
         res.locals.validationFailed = true;
         res.locals.errors = errors.array();
