@@ -26,7 +26,12 @@
         </div>
         <div class="form-group">
             <label for="city">Ville</label>
-            <input name="city" type="text" class="form-control" id="city" value="{{entries.city}}" required>
+            <input name="city"  type="text" class="form-control awesomplete" autocomplete="off" list="myTowns" id="city" value="{{entries.city}}" required>
+            <datalist id="myTowns">
+                {{#cities}}
+                <option>{{.}}</option>
+                {{/cities}}
+            </datalist>
         </div>
         <div class="form-group">
             <label for="phone">Numéro de téléphone</label>

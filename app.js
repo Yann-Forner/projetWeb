@@ -208,7 +208,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/new_user', isLogAdmin, (req, res) => {
-    res.render('new_user');
+    res.render('new_user',{cities : globals.cities});
 });
 
 app.post('/new_user', check_inscription, validator, (req, res) => {
