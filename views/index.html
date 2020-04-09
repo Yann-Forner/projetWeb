@@ -1,24 +1,24 @@
 {{ > header}}
 <div class="container-fluid row m-0 p-0">
-    <div class="col-12 col-md-10 row" id="myWelcomeDiv" style=" background-image: url('{{myUrl}}');">
-        <div class="col-3"></div>
-        <div class="col-6 text-center">
-            <div id="div-title" class="bg-dark text-white rounded-lg">
+    <div class="col-12 col-md-10 " id="myWelcomeDiv" style=" background-image: url('{{myUrl}}');">
+        <div class="text-center row justify-content-center align-items-center h-i">
+            <div class="bg-dark text-white rounded-lg col-6 p-2">
                 <h2>uGive</h2>
-                <img src="/img/logo_projet.svg" width="20%">
+                <img src="/img/logo_projet.svg" id="logo" alt="logo">
                 <p>Trouvez les objets dont vous avez besoin dans les propositions de dons des autres utilisateurs</p>
             </div>
-
         </div>
     </div>
-    <div class="col-12 col-md text-white bg-grey">
-        <div id="connection-div">
-            <a class="btn btn-block btn-success" href="/new_user">Inscription</a>
+    <div class="col-12 col-md text-white bg-grey row no-gutters">
+            <div class="col-12 align-self-start mt-4">
+                <a class="btn btn-block btn-success" href="/new_user">Inscription</a>
 
-            <a class="btn btn-block btn-outline-success mt-5" href="/login">Connexion</a>
-            <small class="text-primary">Déjà inscrit ?</small>
-        </div>
-        <small class="text-muted float-right">By Jeremy GAU and Yann FORNER</small>
+                <a class="btn btn-block btn-outline-success mt-5" href="/login">Connexion</a>
+                <small class="text-primary">Déjà inscrit ?</small>
+            </div>
+            <div class="col-12 align-self-end mb-4">
+                <small class="text-muted float-right">By Jeremy GAU and Yann FORNER</small>
+            </div>
     </div>
 </div>
 

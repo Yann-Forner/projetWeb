@@ -8,12 +8,11 @@
     width: 100%;
 }
 
-#div-title {
-    margin-top: 30%;
-    padding: 2px;
+.h-i {
+    height: inherit;
 }
 
-#connection-div {
-    margin-top: 30%;
-    margin-bottom: 20px
+#logo {
+    width: 20%;
+    min-width: 100px;
 }
