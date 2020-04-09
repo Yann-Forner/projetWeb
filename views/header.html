@@ -15,6 +15,10 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-size">
     <a class="navbar-brand " href="/"><img src="/img/logo_projet.svg" class="img-fluid" style="width: 60px"></a>
+    {{#isIndex}}
+
+    {{/isIndex}}
+    {{^isIndex}}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,5 +41,6 @@
         {{/authentificated}}
 
     </div>
+    {{/isIndex}}
 </nav>
 

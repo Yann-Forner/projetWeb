@@ -131,7 +131,7 @@ app.set('views', './views');
 
 app.get('/', isLogin, (req, res) => {
     if(res.locals.authentificated)res.redirect("/home");
-    else res.render('index',{myUrl : "https://source.unsplash.com/1800x1080/?nature"});
+    else res.render('index',{myUrl : "https://source.unsplash.com/1800x1080/?nature",isIndex : true});
 });
 
 app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
