@@ -4,7 +4,7 @@
  */
 
 const Sqlite = require('better-sqlite3');
-
+var passwordHash = require('password-hash');
 let db = new Sqlite('db.sqlite');
 
 /*
@@ -19,9 +19,12 @@ exports.get_user = (id) =>{
 };
 
 exports.login = (mail, password) => {
-    let query = db.prepare('SELECT * FROM user WHERE mail = @mail AND password = @password');
-    let result = query.get({mail: mail, password: password});
-    if (result !== undefined) {
+    let query = db.prepare('SELECT * FROM user WHERE mail = @mail');
+    let result = query.get({mail: mail});
+    console.log("test");
+    console.log(password)
+    if (result !== undefined && passwordHash.verify(password,result.password )) {
+
         return result;
     }
     return -1;
