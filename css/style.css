@@ -8,22 +8,28 @@
 .navbar-size {
     max-height: 5vh !important;
 }
+#myWelcomeDiv {
+    height: 95vh !important;
+    object-fit: cover;
+    width: 100%;
+}
 
 @media (max-width:1000px) {
 
     /* your conditional / responsive CSS inside this condition */
 
     .navbar-size {  max-height: none !important; }
+    #myWelcomeDiv {
+        height: 66vh !important;
+        object-fit: cover;
+        width: 100%;
+    }
+
 
 }
 
-/* condition for screen size minimum of 500px */
 
-#myWelcomeDiv {
-    height: 95vh !important;
-    object-fit: cover;
-    width: 100%;
-}
+
 
 .h-i {
     height: inherit;
