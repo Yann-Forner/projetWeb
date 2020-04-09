@@ -75,7 +75,7 @@ const check_inscription = [
     check('name', 'Name is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     check('surname', 'Surname is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     // city must be alphabetic and between 1 and 100 characters
-    check('city', 'City is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 1, max: 100})
+    check('city', 'City is not at good format')
         .custom(value => {
             if(globals.cities.includes(value)) {
                 return Promise.resolve;
