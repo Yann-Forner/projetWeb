@@ -7,6 +7,7 @@ var express = require('express');
 var mustache = require('mustache-express');
 var passwordHash = require('password-hash');
 var model = require('./model');
+let globals = require('./variables');
 // parse form arguments in POST requests
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -74,7 +75,13 @@ const check_inscription = [
     check('name', 'Name is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     check('surname', 'Surname is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
     // city must be alphabetic and between 1 and 100 characters
-    check('city', 'City is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 1, max: 100}),
+    check('city', 'City is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 1, max: 100})
+        .custom(value => {
+            if(globals.cities.includes(value)) {
+                return Promise.resolve;
+            }
+            return Promise.reject('This is not a French city');
+        }),
     // phone must be at phone format
     check('phone').custom(value => {
         if (!value.match(/(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}/)) {
@@ -206,7 +213,7 @@ app.get('/new_user', isLogAdmin, (req, res) => {
 
 app.post('/new_user', check_inscription, validator, (req, res) => {
     if (res.locals.validationFailed === true) {
-        res.status(422).render('new_user', {errors: res.locals.errors})
+        res.status(422).render('new_user', {errors: res.locals.errors, entries: req.body});
     }
     else {
         req.session.user = model.new_user(passwordHash.generate(req.body.password), req.body.name, req.body.surname,
