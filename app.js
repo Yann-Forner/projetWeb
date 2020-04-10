@@ -131,7 +131,7 @@ app.set('views', './views');
 
 app.get('/', isLogin, (req, res) => {
     if(res.locals.authentificated)res.redirect("/home");
-    else res.render('index',{myUrl : "https://source.unsplash.com/1800x1080/?nature",isIndex : true});
+    else res.render('index',{myUrl : "https://source.unsplash.com/1800x1080/?nature", isIndex : true});
 });
 
 app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
@@ -183,7 +183,7 @@ app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
 
 app.get('/login', isLogin, (req, res) => {
     if(res.locals.authentificated)res.redirect("/home");
-    else res.render('login');
+    else res.render('login', {isIndex: true});
 });
 
 app.post('/login', (req, res) => {
@@ -196,7 +196,7 @@ app.post('/login', (req, res) => {
         res.redirect('/');
     }
     else {
-        res.render('login', {isFail: true});
+        res.render('login', {isFail: true, isIndex: true});
     }
 });
 
@@ -208,12 +208,12 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/new_user', isLogAdmin, (req, res) => {
-    res.render('new_user',{cities : globals.cities});
+    res.render('new_user',{cities : globals.cities, isIndex: true});
 });
 
 app.post('/new_user', check_inscription, validator, (req, res) => {
     if (res.locals.validationFailed === true) {
-        res.status(422).render('new_user', {errors: res.locals.errors, entries: req.body});
+        res.status(422).render('new_user', {errors: res.locals.errors, entries: req.body, isIndex: true});
     }
     else {
         req.session.user = model.new_user(passwordHash.generate(req.body.password), req.body.name, req.body.surname,
