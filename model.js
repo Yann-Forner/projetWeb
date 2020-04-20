@@ -37,8 +37,9 @@ exports.new_user = (password, name, surname, city, mail, phone, role) => {
 };
 
 exports.new_object = (name,category) => {
-  let query = db.prepare('INSERT INTO object VALUES(@id , @name ,@category)').run({id : null, name : name, category:category});
-  return query.lastInsertRowid;
+    name = name.trim().toLowerCase();
+    let query = db.prepare('INSERT INTO object VALUES(@id , @name ,@category)').run({id : null, name : name, category:category});
+    return query.lastInsertRowid;
 };
 
 exports.add_object_to_user = (idUser, idObject , type) =>{

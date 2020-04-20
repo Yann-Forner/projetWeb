@@ -83,21 +83,20 @@
                 <form method="post" action="/add-new-exchange">
                 <div class="modal-body">
                     <div class="form-group">
+                        <label for="cat">Catégorie</label>
+                        <select class="form-control" name="category" id="cat">
+                            {{#categories}}
+                            <option>{{category}}</option>
+                            {{/categories}}
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="name">Nom de l'objet</label>
-                        <input type="text" class="form-control awesomplete" name="name" list="myNames" autocomplete="off" id="name" placeholder="Carotte .. ">
+                        <input type="text" class="form-control awesomplete" name="name" list="myNames" autocomplete="off" id="name" required>
                         <datalist id="myNames">
                             {{#names}}
                             <option>{{name}}</option>
                             {{/names}}
-                        </datalist>
-                    </div>
-                    <div class="form-group">
-                        <label for="cat">Catégorie</label>
-                        <input type="text" class="form-control awesomplete" name="category" list="myCats" id="cat" placeholder="Alimentaire ..  ">
-                        <datalist id="myCats">
-                            {{#categories}}
-                            <option>{{category}}</option>
-                            {{/categories}}
                         </datalist>
                     </div>
                     <input type="hidden" name="type" id="myType">

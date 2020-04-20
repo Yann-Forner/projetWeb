@@ -226,7 +226,7 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     let surplus = model.get_user_surplus(req.session.user);
     let needs = model.get_user_needs(req.session.user);
     let names = model.get_names();
-    let categories = model.get_categories();
+    let categories = globals.categories;
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
@@ -306,12 +306,14 @@ app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
 app.post('/search', isLogin, isLogAdmin, (req, res) => {
     let peoples = [];
     let users;
-    if(req.body.category === "" && req.body.object === "" ) res.redirect("/home");
+    let category = req.body.category.trim().toLowerCase();
+    let object = req.body.object.trim().toLowerCase();
+    if(category === "" && object === "" ) res.redirect("/home");
     else{
-        if(req.body.category === "" )users = model.get_correspondance_only_name(req.body.object);
-        else if( req.body.object === "" ) users = model.get_correspondance_only_cat(req.body.category);
+        if(category === "" )users = model.get_correspondance_only_name(object);
+        else if( object === "" ) users = model.get_correspondance_only_cat(category);
         else {
-            users = model.get_correspondance(req.body.category, req.body.object);
+            users = model.get_correspondance(category, object);
         }
         for (let user of users) {
             let people = {object: user.objectName , user: user};
