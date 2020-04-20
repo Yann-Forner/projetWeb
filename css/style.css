@@ -2,12 +2,10 @@
     background-color: #3d4348;
 }
 
-
-
-
 .navbar-size {
-    max-height: 5vh !important;
+    min-height: 3rem !important;
 }
+
 #myWelcomeDiv {
     height: 95vh !important;
     object-fit: cover;
