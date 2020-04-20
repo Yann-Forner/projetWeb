@@ -157,8 +157,7 @@ app.get('/home', is_authenticated, isLogAdmin, (req,res) => {
         if (users.length !== 0) {
             for(let user of users){
 
-                let url = "https://fr.distance24.org/route.json?stops="+myTown.city+"|"+user.city;
-
+                let url = "https://fr.distance24.org/route.json?stops=" + model.replaceSpecialChars(myTown.city) + "|" + model.replaceSpecialChars(user.city);
                 let settings = { method: "Get" };
                 fetch(url, settings)
                     .then(res => res.json())

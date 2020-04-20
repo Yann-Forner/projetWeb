@@ -22,7 +22,7 @@ exports.login = (mail, password) => {
     let query = db.prepare('SELECT * FROM user WHERE mail = @mail');
     let result = query.get({mail: mail});
     console.log("test");
-    console.log(password)
+    console.log(password);
     if (result !== undefined && passwordHash.verify(password,result.password )) {
 
         return result;
@@ -124,3 +124,17 @@ exports.get_my_town = (id) =>{
     return query;
 }
 
+exports.replaceSpecialChars = (string) => {
+    const tab1 = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
+    const tab2 = "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn";
+    let rep2 = tab1.split('');
+    let rep = tab2.split('');
+    let myarray = [];
+    let i = -1;
+    while(rep2[++i]){
+        myarray[rep2[i]]=rep[i]
+    }
+    myarray['Œ']='OE'
+    myarray['œ']='oe'
+    return string.replace(/./g, function($0){return (myarray[$0])?myarray[$0]:$0 })
+}
