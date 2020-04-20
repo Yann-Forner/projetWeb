@@ -46,7 +46,7 @@
         <form method="post" action="/add_user">
         <tr>
             <th scope="row">new</th>
-            <td><input name="password" type="password" class="form-control" id="password" pattern="^.{5,}$" required></td>
+            <td><input name="password" type="password" class="form-control" id="password" minlength="5" autocomplete="new-password" required></td>
             <td><input name="surname" type="text" class="form-control" id="surname" required></td>
             <td><input name="name" type="text" class="form-control" id="name" required></td>
             <td><input name="city" type="text" class="form-control" id="city" required></td>
