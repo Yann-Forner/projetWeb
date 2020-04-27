@@ -22,12 +22,12 @@ $( document ).ready(function() {
     );
 
     $('#city').on('input', function() {
-        if($(this).val().length == 4){
+        if($(this).val().length === 4){
 
             let myArr = find($(this).val());
 
             var list = document.getElementById('myTowns');
-            $('#myTown').empty();
+            $('#myTowns').empty();
             myArr.forEach(function(item, index, array) {
                 var option = document.createElement('option');
                 option.value = item;
@@ -42,7 +42,7 @@ $( document ).ready(function() {
 function find(myStr){
     let myArr =[];
     cities.forEach(function(item, index, array) {
-        if(item.startsWith(replaceSpecialChars(myStr.toLowerCase()) ))myArr.push(item);
+        if(item.startsWith(replaceSpecialChars(myStr.toLowerCase())))myArr.push(item);
     });
     return myArr;
 }
