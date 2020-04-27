@@ -3,7 +3,7 @@
 }
 
 .navbar-size {
-    min-height: 3rem !important;
+    max-height: 5vh !important;
 }
 
 #myWelcomeDiv {
