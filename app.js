@@ -281,7 +281,7 @@ app.get('/delete-exchange-surplus/:id', is_authenticated , (req,res)=>{
 
 app.get('/admin', is_authenticated, is_admin,(req,res)=>{
     let users  = model.get_users();
-    res.render('admin',{users: users});
+    res.render('admin',{users: users, cities : globals.cities});
 });
 
 app.post('/add_user', is_authenticated, is_admin, check_inscription, validator, (req, res) => {

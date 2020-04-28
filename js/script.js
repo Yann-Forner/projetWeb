@@ -25,7 +25,6 @@ $( document ).ready(function() {
         if($(this).val().length === 4){
 
             let myArr = find($(this).val());
-
             var list = document.getElementById('myTowns');
             $('#myTowns').empty();
             myArr.forEach(function(item, index, array) {
