@@ -41,7 +41,12 @@ exports.new_object = (name,category) => {
 };
 
 exports.add_object_to_user = (idUser, idObject , type) =>{
-    db.prepare('INSERT INTO exchange VALUES (@idUser, @idObject, @type)').run({idUser : idUser , idObject : idObject , type : type});
+    try {
+        db.prepare('INSERT INTO exchange VALUES (@idUser, @idObject, @type)').run({idUser : idUser , idObject : idObject , type : type});
+    }
+    catch (e) {
+        return e;
+    }
 };
 
 exports.get_user_object = (id) =>{

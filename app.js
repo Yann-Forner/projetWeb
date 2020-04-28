@@ -229,11 +229,16 @@ app.get('/profile', is_authenticated, isLogAdmin, (req,res)=>{
     res.render('profile',{myUser : myUser , surplus : surplus , needs : needs, names : names , categories : categories } );
 });
 
-app.post('/add-new-exchange' , (req,res) => {
+app.post('/add-new-exchange', is_authenticated, isLogAdmin, (req,res) => {
     let id  = model.get_id_object(req.body.name,req.body.category);
     if(id === -1) id = model.new_object(req.body.name,req.body.category,) ;
-    model.add_object_to_user(req.session.user,id,req.body.type);
-    res.redirect('/profile');
+    if (model.add_object_to_user(req.session.user,id,req.body.type) === undefined) {
+        res.redirect('/profile');
+    }
+    else {
+        let otherType = req.body.type === 'surplus' ? 'besoins' : 'surplus';
+        res.render('error-page', {error: `Vous ne pouvez pas ajouter un objet à vos ${req.body.type} s'il existe déja dans vos ${otherType}`});
+    }
  });
 
 app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
