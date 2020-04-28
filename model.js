@@ -21,8 +21,6 @@ exports.get_user = (id) =>{
 exports.login = (mail, password) => {
     let query = db.prepare('SELECT * FROM user WHERE mail = @mail');
     let result = query.get({mail: mail});
-    console.log("test");
-    console.log(password);
     if (result !== undefined && passwordHash.verify(password,result.password )) {
 
         return result;

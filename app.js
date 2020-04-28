@@ -103,7 +103,6 @@ const check_new_password = [
 //a appeler pour appliquer la validation
 const validator = (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty()) {
         res.locals.validationFailed = true;
         res.locals.errors = errors.array();
@@ -319,7 +318,6 @@ app.post('/search', isLogin, isLogAdmin, (req, res) => {
             let people = {object: user.objectName , user: user};
             peoples.push(people);
         }
-        console.log(peoples);
         res.render("find", {peoples : peoples});
     }
 });
