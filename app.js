@@ -281,12 +281,13 @@ app.get('/delete-exchange-surplus/:id', is_authenticated , (req,res)=>{
 
 app.get('/admin', is_authenticated, is_admin,(req,res)=>{
     let users  = model.get_users();
-    res.render('admin',{users: users, cities : globals.cities});
+    res.render('admin',{users: users});
 });
 
 app.post('/add_user', is_authenticated, is_admin, check_inscription, validator, (req, res) => {
     if (res.locals.validationFailed === true) {
-        res.status(422).render('admin', {errors: res.locals.errors})
+        let users  = model.get_users();
+        res.status(422).render('admin', {users: users, errors: res.locals.errors})
     }
     let isDone = model.new_user(passwordHash.generate(req.body.password), req.body.name, req.body.surname,
         req.body.city, req.body.mail, req.body.phone, req.body.role);
