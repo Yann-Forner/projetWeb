@@ -24,11 +24,11 @@
         </div>
         <div class="form-group">
             <label for="name">Prénom</label>
-            <input name="name" type="text" class="form-control" id="name" value="{{entries.name}}" required>
+            <input name="name" type="text" class="form-control" id="name" minlength="2" maxlength="40" value="{{entries.name}}" required>
         </div>
         <div class="form-group">
             <label for="surname">Nom</label>
-            <input name="surname" type="text" class="form-control" id="surname" value="{{entries.surname}}" required>
+            <input name="surname" type="text" class="form-control" id="surname" minlength="2" maxlength="40" value="{{entries.surname}}" required>
         </div>
         <div class="form-group">
             <label for="city">Ville</label>

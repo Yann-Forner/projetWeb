@@ -72,8 +72,8 @@ const check_inscription = [
     // password must be at least 5 chars long
     check('password', "Password isn't enough long").isLength({ min: 5 }),
     // name and surname must be alphabetic and between 2 and 20 characters
-    check('name', 'Name is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
-    check('surname', 'Surname is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 20}),
+    check('name', 'Name is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 40}),
+    check('surname', 'Surname is not at good format').matches(/[\wáàâãéèêíïóôõöúçñ -]*/).isLength({min: 2, max: 40}),
     // city must be alphabetic and between 1 and 100 characters
     check('city', 'City is not at good format')
         .custom(value => {
