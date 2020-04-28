@@ -306,7 +306,7 @@ app.get('/user/:id', isLogin, isLogAdmin, (req, res) => {
 app.post('/search', isLogin, isLogAdmin, (req, res) => {
     let peoples = [];
     let users;
-    let category = req.body.category.trim().toLowerCase();
+    let category = req.body.category;
     let object = req.body.object.trim().toLowerCase();
     if(category === "" && object === "" ) res.redirect("/home");
     else{
