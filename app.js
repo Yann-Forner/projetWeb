@@ -91,6 +91,8 @@ const check_inscription = [
     })
 ];
 
+const check_edit_profile = check_inscription.slice(1);
+
 const check_new_password = [
     check('new_password1').isLength({min: 5}).custom((value, {req}) => {
         if (value !== req.body.new_password2) {
@@ -246,9 +248,14 @@ app.get('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
     res.render('edit-profile', {myUser: myUser});
 });
 
-app.post('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
+app.post('/edit-profile', is_authenticated, isLogAdmin, check_edit_profile, validator, (req, res) => {
     let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
-    if (model.edit_profile(req.session.user, req.body.password, req.body.name, req.body.surname, req.body.city, req.body.mail, req.body.phone) > 0) {
+    let userData = model.get_user(req.session.user);
+    if (res.locals.validationFailed === true) {
+        res.status(422).render('edit-profile', {myUser: userChanges, isNotDone: true, errors: res.locals.errors})
+    }
+    else if (passwordHash.verify(req.body.password, userData.password)) {
+        model.edit_profile(req.session.user, req.body.name, req.body.surname, req.body.city, req.body.mail, req.body.phone)
         res.redirect('/profile');
     }
     else {
@@ -257,15 +264,28 @@ app.post('/edit-profile', is_authenticated, isLogAdmin, (req, res) => {
 });
 
 app.post('/edit-password', is_authenticated, isLogAdmin, check_new_password, validator, (req, res) => {
-    let userChanges = {name: req.body.name, surname: req.body.surname, city: req.body.city, mail: req.body.mail, phone: req.body.phone};
+    let userData = model.get_user(req.session.user);
     if (res.locals.validationFailed === true) {
-        res.status(422).render('edit-profile', {myUser: userChanges, isNotDone: true, errors: res.locals.errors})
+        res.status(422).render('edit-profile', {myUser: userData, isNotDone: true, errors: res.locals.errors})
     }
-    if (model.edit_password(req.session.user, req.body.current_password, req.body.new_password1) > 0) {
+    else if (passwordHash.verify(req.body.current_password, userData.password)) {
+        model.edit_password(req.session.user, req.body.new_password1);
         res.redirect('/profile');
     }
     else {
-        res.render('edit-profile', {myUser: userChanges, isNotDone: true});
+        res.render('edit-profile', {myUser: userData, isNotDone: true});
+    }
+});
+
+app.post('/delete-account', is_authenticated, isLogAdmin, (req, res) => {
+    let password = req.body.password;
+    let userData = model.get_user(req.session.user);
+    if (passwordHash.verify(password, userData.password)) {
+        model.delete_user(req.session.user);
+        res.redirect('/logout');
+    }
+    else {
+        res.render('edit-profile', {myUser: userData, isNotDone: true});
     }
 });
 

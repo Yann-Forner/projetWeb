@@ -22,7 +22,6 @@ exports.login = (mail, password) => {
     let query = db.prepare('SELECT * FROM user WHERE mail = @mail');
     let result = query.get({mail: mail});
     if (result !== undefined && passwordHash.verify(password,result.password )) {
-
         return result;
     }
     return -1;
@@ -77,15 +76,15 @@ exports.get_id_object = (name,category) => {
   return query.id;
 };
 
-exports.edit_profile = (userID, password, name, surname, city, mail, phone) => {
-    let query = db.prepare('UPDATE user SET name = @name, surname = @surname, city = @city, phone = @phone, mail = @mail WHERE id = @id AND password = @password')
-        .run({id: userID, password: password, name: name, surname: surname, city: city, mail: mail, phone: phone});
+exports.edit_profile = (userID, name, surname, city, mail, phone) => {
+    let query = db.prepare('UPDATE user SET name = @name, surname = @surname, city = @city, phone = @phone, mail = @mail WHERE id = @id')
+        .run({id: userID, name: name, surname: surname, city: city, mail: mail, phone: phone});
     return query.changes;
 };
 
-exports.edit_password = (userId, current_password, new_password) => {
-    let query = db.prepare('UPDATE user set password = @new_password WHERE id = @id AND password = @current_password')
-        .run({id: userId, current_password: current_password, new_password: new_password});
+exports.edit_password = (userId, new_password) => {
+    let query = db.prepare('UPDATE user set password = @new_password WHERE id = @id')
+        .run({id: userId, new_password: passwordHash.generate(new_password)});
     return query.changes;
 };
 
